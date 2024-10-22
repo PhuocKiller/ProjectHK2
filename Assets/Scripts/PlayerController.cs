@@ -4,43 +4,48 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class PlayerController : NetworkBehaviour
 {
     CharacterInput characterInput;
     Vector2 moveInput;
     Vector3 moveDirection;
-    CharacterController characterControllerPrototype;
+    NetworkCharacterControllerPrototype characterControllerPrototype;
     Animator animator;
     float speed = 5f;
     private int target, beforeTarget;
     private float lateMagnitude, currentSpeed;
-    Vector3 velocity;
-    bool isGround;
+    /*[Networked]
+    Vector3 velocity { get; set; }*/
+    bool isGround, isJump;
     private void Awake()
     {
         characterInput= new CharacterInput();
-        characterControllerPrototype= GetComponent<CharacterController>();
+        characterControllerPrototype= GetComponent<NetworkCharacterControllerPrototype>();
         animator=GetComponent<Animator>();
     }
-    // Start is called before the first frame update
-    void Start()
+    public override void Spawned()
     {
-        
+        base.Spawned();
+       
+
+        if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
+        {
+            Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+        }
     }
-    // Update is called once per frame
     void Update()
     {
         moveInput=characterInput.Character.Move.ReadValue<Vector2>();
          if(characterInput.Character.Jump.triggered)
         {
-            Jump(7);
+            isJump = true; ;
         };
         if (isGround)
         {
-            velocity.y = 0;
+          //  velocity = Vector3.zero;
         }
-        Debug.Log(isGround);
 
     }
     private void OnEnable()
@@ -68,14 +73,17 @@ public class PlayerController : NetworkBehaviour
         {
             CalculateAnimSpeed();
         }
-        velocity.y += -9.8f * Time.deltaTime;
-        characterControllerPrototype.Move(velocity*Time.deltaTime);
+      // characterControllerPrototype.Move(velocity * Time.deltaTime);
     }
 
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
         CalculateMove();
+        if(isJump)
+        {
+            Jump(10);
+        }
     }
     private void FixedUpdate()
     {
@@ -114,16 +122,16 @@ public class PlayerController : NetworkBehaviour
     }
     void Jump(float jumpForce)
     {
+        isJump = false;
         animator.SetTrigger("Jump");
-        velocity.y += jumpForce;
-        isGround=false;
-        characterControllerPrototype.Move(velocity* Time.deltaTime);    
+        /*velocity += new Vector3(0, jumpForce, 0);
+        isGround =false;*/
+        characterControllerPrototype.Move(new Vector3(0,jumpForce,0));    
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-       
+    { 
             isGround = hit.collider.gameObject.layer == 3;
-        
+        Debug.Log("vo controlerhit" + "is ground" + isGround);
     }
 
 }

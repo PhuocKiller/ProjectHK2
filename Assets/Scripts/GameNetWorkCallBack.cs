@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameNetWorkCallBack : INetworkRunnerCallbacks
+public class GameNetworkCallBack :MonoBehaviour, INetworkRunnerCallbacks
 {
     Action<List<SessionInfo>> onSessionListChanged;
     Action<NetworkRunner, PlayerRef> onPlayerJoin;

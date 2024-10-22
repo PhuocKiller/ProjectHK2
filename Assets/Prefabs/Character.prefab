@@ -1611,7 +1611,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 9bdadda131328b24bacbe9a04f5c374f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1715,7 +1715,7 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
-  gravity: -20
+  gravity: -1
   jumpImpulse: 8
   acceleration: 10
   braking: 10
