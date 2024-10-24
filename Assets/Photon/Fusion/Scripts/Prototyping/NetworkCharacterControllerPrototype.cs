@@ -91,7 +91,7 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
     direction = direction.normalized;
 
     if (IsGrounded && moveVelocity.y < 0) {
-      moveVelocity.y = 0f;
+     moveVelocity.y = 0f;
     }
 
     moveVelocity.y += gravity * Runner.DeltaTime;
@@ -104,7 +104,7 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
       horizontalVel = Vector3.Lerp(horizontalVel, default, braking * deltaTime);
     } else {
       horizontalVel      = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
-      transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Runner.DeltaTime);
+      transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),  Runner.DeltaTime);
     }
 
     moveVelocity.x = horizontalVel.x;
