@@ -1,13 +1,20 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using static Cinemachine.DocumentationSortingAttribute;
-
-public class PlayerController : NetworkBehaviour
+public enum CharacterState
 {
+    Normal,
+    RightAttack,
+    Damaged
+}
+public class PlayerController : NetworkBehaviour, ICanTakeDamage
+{
+    PlayerStat playerStat = new PlayerStat(damage: 20, health: 100);
     CharacterInput characterInput;
     Vector2 moveInput;
     Vector3 moveDirection;
@@ -16,14 +23,23 @@ public class PlayerController : NetworkBehaviour
     float speed = 5f;
     private int target, beforeTarget;
     private float lateMagnitude, currentSpeed;
-    /*[Networked]
-    Vector3 velocity { get; set; }*/
     bool isGround;
     [Networked]
     bool isJumping {get;set;}
     [Networked]
+    bool isRightClickAttack { get; set; }
+    [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
+    [SerializeField]
+    CharacterState currentState;
+    [SerializeField]
+    GameObject rightAttackObject;
+    [SerializeField]
+    Transform rightAttackTransform;
+
+    
+
     private void Awake()
     {
         characterInput= new CharacterInput();
@@ -51,7 +67,11 @@ public class PlayerController : NetworkBehaviour
         {
             velocity = Vector3.zero;
         }
-
+        if (characterInput.Character.Attack.triggered && currentState==CharacterState.Normal)
+        {
+            isRightClickAttack = true;
+        }
+        
     }
     private void OnEnable()
     {
@@ -107,14 +127,56 @@ public class PlayerController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+        if (currentState==CharacterState.RightAttack)
+        {
+            return;
+        }
         if (isJumping&& HasStateAuthority)
         {
             isGround=false;
-            Jump(70);
+            Jump(50);
+            Debug.Log("jump");
         }
      CalculateMove();
+        if (isRightClickAttack && isGround)
+        {
+            animator.SetTrigger("Attack");
+            Runner.Spawn(rightAttackObject, rightAttackTransform.position, inputAuthority:Object.InputAuthority
+     ,onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+     {
+         obj.GetComponent<RightClickAttackObject>().SetDirection(transform.forward);
+     }
+                        );
+            isRightClickAttack = false;
+        }
+        
+       
     }
     
+    public void SwithCharacterState(CharacterState newCatState)
+    {
+        //Khi ket thuc trang thai cu thi toi lam gi do...
+        switch (currentState)
+        {
+            case CharacterState.Normal: { break; }
+            case CharacterState.RightAttack: { break; }
+            case CharacterState.Damaged: { break; }
+        }
+        //Bat dau trang thai moi thi toi lam gi do...
+        switch (newCatState)
+        {
+            case CharacterState.Normal: { break; }
+            case CharacterState.RightAttack: { break; }
+            case CharacterState.Damaged:
+                {
+                    animator.SetTrigger("Damaged");
+                    break;
+                }
+        }
+        currentState = newCatState;
+
+    }
+
     private void CalculateAnimSpeed(float speed = 0)
     {
         currentSpeed = speed;
@@ -158,9 +220,17 @@ public class PlayerController : NetworkBehaviour
         if (hit.collider.CompareTag("Ground") && !isGround)
         {
             isGround = true;
-           // animator.SetTrigger("isGround");
-            Debug.Log("ground");
         }
     }
 
+    public void ApplyDamage(int damage, PlayerRef player, Action callback = null)
+    {
+        CalculateHealthRPC(damage, player);
+        callback?.Invoke();
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CalculateHealthRPC(int damage, PlayerRef player)
+    {
+
+    }
 }
