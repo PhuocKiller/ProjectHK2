@@ -6,6 +6,6 @@ using UnityEngine;
 
 public interface ICanTakeDamage
 {
-    public void ApplyDamage(int damage, PlayerRef player, Action callback = null);
+    public void ApplyDamage(float damage, PlayerRef player, Action callback = null);
 
 }

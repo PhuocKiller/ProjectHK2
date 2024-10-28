@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightClickAttackObject : NetworkBehaviour
+public class BasicAttackObject : NetworkBehaviour
 {
-  
-    private Vector3 direction = Vector3.zero;
+
+    private Vector3 direction;
     private NetworkRigidbody rb;
 
     private List<Collider> collisions = new List<Collider>();
@@ -21,19 +21,16 @@ public class RightClickAttackObject : NetworkBehaviour
         {
             rb.Rigidbody.AddForce(direction * 2000);
             transform.forward = direction;
-            timer = TickTimer.CreateFromSeconds(Runner, 1.3333f);
+            timer = TickTimer.CreateFromSeconds(Runner, 0.3f);
         }
     }
 
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (HasStateAuthority
-            &&
-            timer.Expired(Runner)
+        if (HasStateAuthority && timer.Expired(Runner)
             )
         {
-
             Runner.Despawn(Object);
         }
 
@@ -54,13 +51,13 @@ public class RightClickAttackObject : NetworkBehaviour
               other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 1)*/
             )
         {
-            /*collisions.Add(other);
+            collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(20, Object.InputAuthority,
                 () =>
                 {
                     Runner.Despawn(Object);
                 }
-                );*/
+                );
         }
     }
 }

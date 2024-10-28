@@ -1335,7 +1335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 222586208559387751}
   m_Layer: 7
-  m_Name: SpawnRightClick
+  m_Name: SpawnBasicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2454,7 +2454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100/100
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2631,8 +2631,9 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   currentState: 0
-  rightAttackObject: {fileID: 3994659860011643894, guid: fee3a9b751ffc504ab7a40b1120ae742, type: 3}
-  rightAttackTransform: {fileID: 222586208559387751}
+  basicAttackObject: {fileID: 3994659860011643894, guid: fee3a9b751ffc504ab7a40b1120ae742, type: 3}
+  basicAttackTransform: {fileID: 222586208559387751}
+  textHealth: {fileID: 942566277111396197}
 --- !u!114 &9168743344057428983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2689,7 +2690,7 @@ MonoBehaviour:
     _value: 0
     _inverse: 0
     _hash: -814817977
-  StateHashes: 0000000046980c4f14c2736646d022b4d5a7761fb1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e1754
+  StateHashes: 0000000046980c4f14c27366dae5fc9655af9fe0b1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e1754
   TriggerHashes: 0000000028a981070d286c40
 --- !u!143 &6160381382846009959
 CharacterController:

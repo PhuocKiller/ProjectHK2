@@ -2,6 +2,7 @@ using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -9,12 +10,14 @@ using static Cinemachine.DocumentationSortingAttribute;
 public enum CharacterState
 {
     Normal,
-    RightAttack,
-    Damaged
+    BasicAttack,
+    Injured,
+    Die,
+
 }
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
-    PlayerStat playerStat = new PlayerStat(damage: 20, health: 100);
+    PlayerStat playerStat = new PlayerStat(maxHealth: 100, maxMana:50, damage:20);
     CharacterInput characterInput;
     Vector2 moveInput;
     Vector3 moveDirection;
@@ -27,18 +30,18 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Networked]
     bool isJumping {get;set;}
     [Networked]
-    bool isRightClickAttack { get; set; }
+    bool isBasicAttackAttack { get; set; }
     [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
     [SerializeField]
     CharacterState currentState;
     [SerializeField]
-    GameObject rightAttackObject;
+    GameObject basicAttackObject;
     [SerializeField]
-    Transform rightAttackTransform;
-
-    
+    Transform basicAttackTransform;
+    [SerializeField]
+    TextMeshProUGUI textHealth;
 
     private void Awake()
     {
@@ -69,7 +72,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         if (characterInput.Character.Attack.triggered && currentState==CharacterState.Normal)
         {
-            isRightClickAttack = true;
+            isBasicAttackAttack = true;
         }
         
     }
@@ -127,7 +130,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (currentState==CharacterState.RightAttack)
+        if (currentState==CharacterState.BasicAttack)
         {
             return;
         }
@@ -138,19 +141,18 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Debug.Log("jump");
         }
      CalculateMove();
-        if (isRightClickAttack && isGround)
+        if (isBasicAttackAttack && isGround)
         {
             animator.SetTrigger("Attack");
-            Runner.Spawn(rightAttackObject, rightAttackTransform.position, inputAuthority:Object.InputAuthority
+            Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority:Object.InputAuthority
      ,onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<RightClickAttackObject>().SetDirection(transform.forward);
+         obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
      }
                         );
-            isRightClickAttack = false;
+            isBasicAttackAttack = false;
         }
-        
-       
+        textHealth.text=((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
     }
     
     public void SwithCharacterState(CharacterState newCatState)
@@ -159,19 +161,24 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         switch (currentState)
         {
             case CharacterState.Normal: { break; }
-            case CharacterState.RightAttack: { break; }
-            case CharacterState.Damaged: { break; }
+            case CharacterState.BasicAttack: { break; }
+            case CharacterState.Injured: { break; }
+            case CharacterState.Die: { break; }
         }
         //Bat dau trang thai moi thi toi lam gi do...
         switch (newCatState)
         {
             case CharacterState.Normal: { break; }
-            case CharacterState.RightAttack: { break; }
-            case CharacterState.Damaged:
+            case CharacterState.BasicAttack: { break; }
+            case CharacterState.Injured:
                 {
-                    animator.SetTrigger("Damaged");
+                    animator.SetTrigger("Injured");
                     break;
                 }
+            case CharacterState.Die: 
+                {
+                    animator.SetTrigger("Die");
+                    break; }
         }
         currentState = newCatState;
 
@@ -215,6 +222,20 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         velocity += new Vector3(0, jumpHeight , 0);
 
     }
+    public void CheckCamera(PlayerRef player, bool isFollow)
+    {
+        if (player == Runner.LocalPlayer)
+        {
+            if (isFollow)
+            {
+                Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+            }
+            else
+            {
+                Singleton<CameraController>.Instance.RemoveFollowCharacter();
+            }
+        }
+    }
     void OnControllerColliderHit(ControllerColliderHit hit)
     { 
         if (hit.collider.CompareTag("Ground") && !isGround)
@@ -223,14 +244,24 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
 
-    public void ApplyDamage(int damage, PlayerRef player, Action callback = null)
+    public void ApplyDamage(float damage, PlayerRef player, Action callback = null)
     {
         CalculateHealthRPC(damage, player);
         callback?.Invoke();
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void CalculateHealthRPC(int damage, PlayerRef player)
+    public void CalculateHealthRPC(float damage, PlayerRef player)
     {
-
+        if (playerStat.currentHealth >damage)
+        {
+            SwithCharacterState(CharacterState.Injured);
+            playerStat.currentHealth -= damage;
+        }
+        else
+        {
+            playerStat.currentHealth = 0;
+            SwithCharacterState(CharacterState.Die);
+        }
+        
     }
 }

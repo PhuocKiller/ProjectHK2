@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.344, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7100036791771893977}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7100036791771893977}
   m_Layer: 0
-  m_Name: RightClickParent
+  m_Name: BasicParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: -6139444876633410294}
   - component: {fileID: 2812074760785602529}
   m_Layer: 0
-  m_Name: RightClickAttackObject
+  m_Name: BasicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -192,12 +192,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.75588125, y: 0.09795573, z: 0.10358426}
-  m_Center: {x: 0.36204472, y: 0.015875116, z: -0.010238752}
+  m_Size: {x: 0.15802932, y: 0.13228846, z: 1.5160093}
+  m_Center: {x: 0.34343565, y: -0.0012912452, z: -0.0038369894}
 --- !u!54 &-2576718066245777414
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -270,4 +270,3 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  bulletColors: []

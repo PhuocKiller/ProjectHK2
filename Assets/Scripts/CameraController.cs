@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    CinemachineFreeLook virtualCamera;
+    CinemachineFreeLook freeLookCamera;
     void Start()
     {
-        virtualCamera = GetComponent<CinemachineFreeLook>();
+        freeLookCamera = GetComponent<CinemachineFreeLook>();
         Singleton<CinemachineBrain>.Instance.m_ShowDebugText = true;
     }
 
     public void SetFollowCharacter(Transform characterTransform)
     {
-        virtualCamera.Follow = characterTransform;
-        virtualCamera.LookAt = characterTransform;
+        freeLookCamera.Follow = characterTransform;
+        freeLookCamera.LookAt = characterTransform;
     }
     public void RemoveFollowCharacter()
     {
-        virtualCamera.Follow = null;
+        freeLookCamera.Follow = null;
     }
 }
