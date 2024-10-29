@@ -21,7 +21,7 @@ public class BasicAttackObject : NetworkBehaviour
         {
             rb.Rigidbody.AddForce(direction * 2000);
             transform.forward = direction;
-            timer = TickTimer.CreateFromSeconds(Runner, 0.3f);
+            timer = TickTimer.CreateFromSeconds(Runner, 1f);
         }
     }
 

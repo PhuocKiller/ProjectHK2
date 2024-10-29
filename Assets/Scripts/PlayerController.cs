@@ -10,6 +10,7 @@ using static Cinemachine.DocumentationSortingAttribute;
 public enum CharacterState
 {
     Normal,
+    Jump,
     BasicAttack,
     Injured,
     Die,
@@ -23,9 +24,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     Vector3 moveDirection;
     CharacterController characterControllerPrototype;
     Animator animator;
-    float speed = 5f;
-    private int target, beforeTarget;
-    private float lateMagnitude, currentSpeed;
+    float speed;
+    private int targetX, targetY, beforeTarget;
+    private float previousSpeedX, currentSpeedX,previousSpeedY, currentSpeedY;
     bool isGround;
     [Networked]
     bool isJumping {get;set;}
@@ -61,7 +62,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void Update()
     {
-        moveInput=characterInput.Character.Move.ReadValue<Vector2>();
+        if (currentState == CharacterState.BasicAttack || currentState == CharacterState.Jump)
+        {
+            return;
+        }
+        moveInput =characterInput.Character.Move.ReadValue<Vector2>();
          if(characterInput.Character.Jump.triggered &&isGround)
         {
             isJumping = true;
@@ -88,23 +93,27 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
+            
             moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-
+            CalculateAnimSpeed("MoveX", moveInput.x,true);
+            CalculateAnimSpeed("MoveY", moveInput.y,false);
+            speed=2f+Vector2.Dot(moveInput, Vector2.up);
+            Quaternion angleCamera = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+            transform.rotation = angleCamera;
             if (moveDirection.magnitude > 0)
             {
                 if (!isJumping)
                 {
-                    animator.SetFloat("Speed", 1f);
+                  //  animator.SetFloat("Speed", 1f);
                 }
-                Quaternion angleCamera = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-                Quaternion lookRotation = Quaternion.LookRotation(angleCamera * moveDirection);
-                transform.rotation = lookRotation;
-                characterControllerPrototype.Move(transform.forward * 20 * Time.deltaTime);
-                CalculateAnimSpeed(1f);
+                
+               // Quaternion lookRotation = Quaternion.LookRotation(angleCamera * moveDirection);
+                
+                characterControllerPrototype.Move(angleCamera * moveDirection * speed *3* Time.deltaTime);
             }
             else
             {
-                CalculateAnimSpeed();
+
             }
             if (!isGround)
             {
@@ -184,17 +193,37 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
     }
 
-    private void CalculateAnimSpeed(float speed = 0)
+    private void CalculateAnimSpeed(string animationName,float speed, bool isMoveX)
     {
-        currentSpeed = speed;
-        if (lateMagnitude != currentSpeed)
+        if(isMoveX)
         {
-            StartCoroutine(CaculateSmoothAnimation("Speed", speed));
+            currentSpeedX = speed;
         }
-        lateMagnitude = speed;
+        else
+        {
+            currentSpeedY = speed;
+        }
+           
+        if (isMoveX && previousSpeedX != currentSpeedX)
+        {
+            StartCoroutine(CaculateSmoothAnimation(animationName,true, speed));
+        }
+        if (!isMoveX && previousSpeedY != currentSpeedY)
+        {
+            StartCoroutine(CaculateSmoothAnimation(animationName,false, speed));
+        }
+
+        if (isMoveX)
+        {
+            previousSpeedX = speed;
+        }
+        else
+        {
+            previousSpeedY = speed;
+        }
     }
 
-    IEnumerator CaculateSmoothAnimation(string animationName, float? Speedtarget = null)
+    IEnumerator CaculateSmoothAnimation(string animationName,bool isMoveX, float? Speedtarget = null)
     {
         float time = 0;
         float start = animator.GetFloat(animationName);
@@ -205,12 +234,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             //doi lai 1 khung hinh
             yield return null;
             if (Speedtarget != null
-                && Speedtarget != currentSpeed)
+                && Speedtarget != (isMoveX? currentSpeedX:currentSpeedY))
             {
                 time = targetTime;
                 break;
             }
-            float valueRandomSmooth = Mathf.Lerp(start, Speedtarget == null ? target : Speedtarget.Value, x * time);
+            float valueRandomSmooth = Mathf.Lerp(start, Speedtarget == null ?
+                (isMoveX? targetX:targetY ): Speedtarget.Value, x * time);
             animator.SetFloat(animationName, valueRandomSmooth);
             time += Time.deltaTime;
         }

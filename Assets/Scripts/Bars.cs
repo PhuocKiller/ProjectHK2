@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bars : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    Image fillBar, fadeFillBar;
+    [SerializeField]
+    TextMeshProUGUI valueText;
 
-    // Update is called once per frame
-    void Update()
+
+    public virtual void UpdateBar(float currentValue, float maxValue)
     {
-        transform.forward = Camera.main.transform.forward;
+        fillBar.fillAmount = currentValue / maxValue;
+        valueText.text = ((int)currentValue).ToString() + "/" + ((int)maxValue).ToString();
+    }
+    public void UpdateFadeBar(float currentValue, float maxValue)
+    {
+        fadeFillBar.fillAmount = currentValue / maxValue;
+    }
+    private void Update()
+    {
+        transform.forward = Camera.main.transform.forward;  
     }
 }
