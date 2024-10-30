@@ -9,5 +9,5 @@ public class SkillSO : ScriptableObject
     public float cooldownTime;
     public Sprite skillIcon;
     public AudioClip triggerSoundFX;
-
+    public float damage;
 }

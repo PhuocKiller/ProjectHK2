@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SkillType
 {
-    Freeball,
+    FireBall,
     FreezeTime,
     Dash,
 }

@@ -1,3 +1,5 @@
+using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +12,8 @@ public class SkillController : MonoBehaviour
     protected bool m_isTriggered, m_isCooldowning;
     protected float m_cooldownTime;
     protected float m_triggerTime;
-    public UnityEvent OnTriggerEnter, OnSKillUpdate, OnCooldown, OnStop,OnCooldownStop;
-    public UnityEvent<SkillType> OnStopWithType;
+    public UnityEvent OnTriggerEnter, OnSkillUpdate, OnCooldown, OnStop,OnCooldownStop;
+    public UnityEvent<SkillType, int> OnStopWithType;
     
 
     public float cooldownProgress
@@ -36,5 +38,49 @@ public class SkillController : MonoBehaviour
         if (m_isTriggered || m_isCooldowning) return;
         m_isCooldowning = true;
         m_isTriggered = true;
+        OnTriggerEnter?.Invoke();
+    }
+    private void Update()
+    {
+        CoreHandle();
+    }
+    void CoreHandle()
+    {
+        ReduceTriggerTime();
+        ReduceCooldownTime();
+    }
+    void ReduceTriggerTime()
+    {
+        if (!m_isTriggered) return;
+        m_triggerTime -= Time.deltaTime;
+        if (m_triggerTime<=0)
+        {
+            Stop();
+        }
+        OnSkillUpdate?.Invoke();
+    }
+
+    void ReduceCooldownTime()
+    {
+        if (!m_isCooldowning) return;
+        m_cooldownTime-= Time.deltaTime;
+        OnCooldown?.Invoke();
+        if (m_cooldownTime > 0) return;
+        m_isCooldowning = false;
+        OnCooldownStop?.Invoke();
+        m_cooldownTime = skillStat.cooldownTime;
+    }
+    public void Stop()
+    {
+        m_triggerTime = skillStat.timerTrigger;
+        m_isTriggered=false;
+        OnStopWithType?.Invoke(type,1);
+        OnStop?.Invoke();
+    }
+    public void ForceStop()
+    {
+        m_isCooldowning=false;
+        m_isTriggered=false;
+        LoadStat();
     }
 }
