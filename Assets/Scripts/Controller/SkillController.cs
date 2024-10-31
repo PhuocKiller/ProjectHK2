@@ -1,4 +1,4 @@
-using Fusion;
+﻿using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,11 +33,11 @@ public class SkillController : MonoBehaviour
         m_cooldownTime = skillStat.cooldownTime;
         m_triggerTime = skillStat.timerTrigger;
     }
-    public void Trigger()
+    public void Trigger() //khi ấn button lệnh ở đây
     {
         if (m_isTriggered || m_isCooldowning) return;
         m_isCooldowning = true;
-        m_isTriggered = true;
+       // m_isTriggered = true;
         OnTriggerEnter?.Invoke();
     }
     private void Update()
@@ -46,7 +46,7 @@ public class SkillController : MonoBehaviour
     }
     void CoreHandle()
     {
-        ReduceTriggerTime();
+      //  ReduceTriggerTime();
         ReduceCooldownTime();
     }
     void ReduceTriggerTime()

@@ -54,7 +54,7 @@ public class SkillButton : MonoBehaviour
         m_skillIcon.sprite=m_skillController.skillStat.skillIcon;
         UpdateAmountTxt();
         UpdateCooldown();
-        UpdateTimerTrigger();
+        //UpdateTimerTrigger();
         bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
         gameObject.SetActive(canActiveMe);
     }
