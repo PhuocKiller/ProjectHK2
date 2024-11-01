@@ -1271,7 +1271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9000419316599933602}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1406,7 +1406,7 @@ GameObject:
   - component: {fileID: 4499403056973388734}
   - component: {fileID: 9151313736177223500}
   - component: {fileID: 5656872502079300756}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1507,7 +1507,7 @@ GameObject:
   - component: {fileID: 6735117824871733126}
   - component: {fileID: 1238600140939338233}
   - component: {fileID: 7596157829984296512}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2016,7 +2016,7 @@ GameObject:
   - component: {fileID: 4727928886489279169}
   - component: {fileID: 6345139934315806114}
   - component: {fileID: 6764827017029271883}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: FadeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2123,7 @@ GameObject:
   - component: {fileID: 5596827603787578304}
   - component: {fileID: 6930067213865542977}
   - component: {fileID: 7662941599385178040}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: FillBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2744,6 +2744,7 @@ GameObject:
   - component: {fileID: 1002137448909909735}
   - component: {fileID: 6160381382846009959}
   - component: {fileID: 4141041976188049337}
+  - component: {fileID: 90528979900811370}
   m_Layer: 7
   m_Name: MageCharacter
   m_TagString: Untagged
@@ -2887,7 +2888,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -2923,6 +2924,29 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
+--- !u!136 &90528979900811370
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8523547410306454324}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.69208384
+  m_Height: 2.9790735
+  m_Direction: 1
+  m_Center: {x: 0.065164566, y: 1.3565141, z: 0}
 --- !u!1 &8693838669918822740
 GameObject:
   m_ObjectHideFlags: 0

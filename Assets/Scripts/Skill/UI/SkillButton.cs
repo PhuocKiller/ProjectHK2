@@ -70,7 +70,7 @@ public class SkillButton : MonoBehaviour
     private void UpdateCooldown()
     {
         if (m_cooldownTxt)
-        m_cooldownTxt.text= m_skillController.CooldownTime.ToString("f1");
+        m_cooldownTxt.text= m_skillController.CooldownTime.ToString("f0");
         float cooldownProgress= m_skillController.cooldownProgress;
         if (m_CooldownOverlay)
         {

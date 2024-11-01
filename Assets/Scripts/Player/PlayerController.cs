@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using static Cinemachine.DocumentationSortingAttribute;
+
 public enum CharacterState
 {
     Normal,
@@ -294,4 +295,26 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         
     }
+    /*private void OnCollisionEnter(Collision hit)
+    {
+        InventoryItemBase item = hit.collider.GetComponent<InventoryItemBase>();
+        if (item != null)
+        {
+           Inventory.instance.AddItem(item);
+        }
+        
+    }*/
+    private void OnTriggerEnter(Collider other)
+    {
+        InventoryItemBase item = other.GetComponent<InventoryItemBase>();
+        if (item != null)
+        {
+            Inventory.instance.AddItem(item);
+            item.OnPickUp();
+        }
+    }
+    
+
+
+
 }
