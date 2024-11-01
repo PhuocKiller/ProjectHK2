@@ -52,6 +52,8 @@ public class Inventory : MonoBehaviour
         }
         if (freeSlot != null)
         {
+            
+
             freeSlot.AddItem(item);
             if (ItemAdded != null)
             {

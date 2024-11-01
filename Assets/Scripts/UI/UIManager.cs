@@ -11,10 +11,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     int numberHealPotionInt, numberManaPotionInt;
+    [SerializeField] Transform inventoryPanel;
     // Start is called before the first frame update
     void Start()
     {
-        Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
+       Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
         Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
         Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
     }
@@ -26,10 +27,11 @@ public class UIManager : MonoBehaviour
     }
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {
-        Transform inventoryPanel = transform.Find("InventoryPanel");
         int index = -1;
+        Debug.Log(inventoryPanel);
         foreach (Transform slot in inventoryPanel)
         {
+            
             index++;
             Transform imageTransform = slot.GetChild(0).GetChild(0);
             
@@ -57,7 +59,7 @@ public class UIManager : MonoBehaviour
     }
     void Inventory_ItemRemoved(object sender, InventoryEventArgs e)
     {
-        Transform inventoryPanel = transform.Find("InventoryPanel");
+      //  Transform inventoryPanel = transform.Find("InventoryPanel");
         int index = -1; 
         foreach (Transform slot in inventoryPanel)
         {
@@ -100,7 +102,7 @@ public class UIManager : MonoBehaviour
     void Inventory_Update(object sender, InventoryEventArgs e)
     {
         numberHealPotionInt = 0; numberManaPotionInt = 0;
-        Transform inventoryPanel = transform.Find("InventoryPanel");
+      //  Transform inventoryPanel = transform.Find("InventoryPanel");
         foreach (Transform slot in inventoryPanel)
         {
             if (slot.childCount == 1)  //vì nút close panel ko có child

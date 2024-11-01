@@ -13,9 +13,10 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SkillButtonDrawer m_skillBtnDrawer;
     private void Start()
     {
-        AddSkill(SkillType.FireBall, 3);
-        AddSkill(SkillType.FreezeTime, 2);
-        AddSkill(SkillType.Dash, 4);
+        AddSkill(SkillType.FireBall);
+        AddSkill(SkillType.FreezeTime);
+        AddSkill(SkillType.Dash);
+        AddSkill(SkillType.Healing);
         m_skillBtnDrawer?.DrawSkillButton();
     }
      void Awake()

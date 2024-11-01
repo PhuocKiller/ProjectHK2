@@ -7,4 +7,5 @@ public enum SkillType
     FireBall,
     FreezeTime,
     Dash,
+    Healing,
 }
