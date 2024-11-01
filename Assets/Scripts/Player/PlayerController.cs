@@ -100,7 +100,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             CalculateAnimSpeed("MoveY", moveInput.y,false);
             speed=2f+Vector2.Dot(moveInput, Vector2.up);
             Quaternion angleCamera = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-            transform.rotation = angleCamera;
+            
             if (moveDirection.magnitude > 0)
             {
                 if (!isJumping)
@@ -110,12 +110,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 
                // Quaternion lookRotation = Quaternion.LookRotation(angleCamera * moveDirection);
                 
-                characterControllerPrototype.Move(angleCamera * moveDirection * speed *3* Time.deltaTime);
+                characterControllerPrototype.Move(angleCamera*moveDirection * speed *3* Time.deltaTime);
             }
-            else
-            {
-
-            }
+            transform.rotation = angleCamera;
             if (!isGround)
             {
                 if (isJumping)
@@ -182,7 +179,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             case CharacterState.BasicAttack: { break; }
             case CharacterState.Injured:
                 {
-                    animator.SetTrigger("Injured");
+                    
                     break;
                 }
             case CharacterState.Die: 
@@ -285,7 +282,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         if (playerStat.currentHealth >damage)
         {
-            SwithCharacterState(CharacterState.Injured);
+            animator.SetTrigger("Injured");
             playerStat.currentHealth -= damage;
         }
         else
@@ -309,7 +306,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
-            Inventory.instance.AddItem(item);
+            Singleton<Inventory>.Instance.AddItem(item);
             item.OnPickUp();
         }
     }

@@ -15,6 +15,7 @@ public class HealPotion : InventoryItemBase
     public override void OnUse()
     {
         base.OnUse();
-        Debug.Log("used");
+        Singleton<Inventory>.Instance.RemoveItem(this);
+       // Destroy(gameObject);
     }
 }

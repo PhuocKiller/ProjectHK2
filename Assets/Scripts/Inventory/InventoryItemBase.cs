@@ -74,7 +74,7 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo,500))
         {
-            Inventory.instance.CreateNewItem(hitInfo.point, GetItemTypes());
+            Singleton<Inventory>.Instance.CreateNewItem(hitInfo.point, GetItemTypes());
         }
         
     }

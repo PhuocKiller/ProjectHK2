@@ -10,30 +10,16 @@ public class Inventory : MonoBehaviour
     private IList<InventorySlot> mSlots = new List<InventorySlot>();
     public event EventHandler<InventoryEventArgs> ItemAdded;
     public event EventHandler<InventoryEventArgs> ItemRemoved;
+    public event EventHandler<InventoryEventArgs> ItemUsed;
     public event EventHandler<InventoryEventArgs> InventoryUpdate;
-    public static Inventory instance;
     public InventoryItemBase[] inventoryItems, inventory_9_Items;
     InventoryItemBase item;
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-
-        }
-        else
-        {
-            if (instance != this)
-            {
-                Destroy(gameObject);  //xóa cái mới sinh ra
-            }
-
-        }
-        DontDestroyOnLoad(gameObject);
+        
     }
     private void Start()
     {
-       // LoadItemsFromSave();
     }
 
     public void AddItem(InventoryItemBase item)
@@ -66,7 +52,6 @@ public class Inventory : MonoBehaviour
         }
         if (freeSlot != null)
         {
-            Debug.Log("vo free slot");
             freeSlot.AddItem(item);
             if (ItemAdded != null)
             {
@@ -106,34 +91,21 @@ public class Inventory : MonoBehaviour
 
     internal void UseItemClickInventory(IInventoryItem item) //Use item khi click trực tiếp trong inventory
     {
-        if (mItems.Contains(item))
+        if (ItemUsed != null)
         {
-            mItems.Remove(item);
-            item.OnUse();
-            Debug.Log("vo item click");
+            ItemUsed(this, new InventoryEventArgs(item));
+        }
 
-            if (ItemRemoved != null)
-            {
-                ItemRemoved(this, new InventoryEventArgs(item));
-            }
-            if (InventoryUpdate != null)
+        item.OnUse();
+        
+
+        if (InventoryUpdate != null)
             {
                 InventoryUpdate(this, new InventoryEventArgs(item));
             }
-        }
+        
     }
-    public void UseKeyToFightBoss(InventoryItemBase item)
-    {
-        if (mItems.Contains(item))
-        {
-            mItems.Remove(item);
-            item.OnUse();
-            if (ItemRemoved != null)
-            {
-                ItemRemoved(this, new InventoryEventArgs(item));
-            }
-        }
-    }
+    
     internal void UseItemClickButton(InventoryItemBase item) //Use item khi click button
     {
         if (mItems.Contains(item))
@@ -150,24 +122,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    public void BuyItemInShop(InventoryItemBase item, int itemCost)
-    {
-        if (mItems.Count < SLOTS)
-        {
-            
-                mItems.Add(item);
-                if (ItemAdded != null)
-                {
-                    ItemAdded(this, new InventoryEventArgs(item));
-                   // BuyItemSuccess(itemCost);
-                }
-                if (InventoryUpdate != null)
-                {
-                    InventoryUpdate(this, new InventoryEventArgs(item));
-                }
-           
-        }
-    }
+   
     /*void BuyItemSuccess(int itemCost)
     {
         PlayerController.instance.coins -= itemCost;
@@ -186,32 +141,6 @@ public class Inventory : MonoBehaviour
         }
         Instantiate(inventoryItems[i], pos, Quaternion.identity);
     }
-    /*public void LoadItemsFromSave()
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < inventoryItems.Length; j++)
-            {
-                if ((int)inventoryItems[j].itemTypes == SavingFile.instance.slot[i]) //dò items từ trong file saving
-                {
-                    if (mItems.Count < SLOTS)
-                    {
-                        inventory_9_Items[i] = inventoryItems[j];
-                        mItems.Add(inventory_9_Items[i]);
-                        if (ItemAdded != null)
-                        {
-                            ItemAdded(this, new InventoryEventArgs(inventory_9_Items[i]));
-                        }
-                        if (InventoryUpdate != null)
-                        {
-                            InventoryUpdate(this, new InventoryEventArgs(inventory_9_Items[i]));
-                        }
-
-                    }
-                }
-            }
-        }
-    }*/
     public Inventory()
     {
         for (int i = 0;i<SLOTS;i++)

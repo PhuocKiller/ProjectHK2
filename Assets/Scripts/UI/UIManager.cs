@@ -14,9 +14,9 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Inventory.instance.ItemAdded += InventoryScript_ItemAdded;
-        Inventory.instance.ItemRemoved += Inventory_ItemRemoved;
-        Inventory.instance.InventoryUpdate += Inventory_Update;
+        Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
+        Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
+        Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
     }
 
     // Update is called once per frame

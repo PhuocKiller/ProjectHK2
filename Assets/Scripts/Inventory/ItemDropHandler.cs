@@ -14,7 +14,7 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
             IInventoryItem item = eventData.pointerDrag.gameObject.GetComponent<ItemDragHandler>().Item;
             if (item != null)
             {
-                Inventory.instance.RemoveItem(item);
+                Singleton<Inventory>.Instance.RemoveItem(item);
                 item.OnDrop();
             }
         }
