@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     CinemachineFreeLook freeLookCamera;
+    PlayerController player;
     void Start()
     {
         freeLookCamera = GetComponent<CinemachineFreeLook>();
@@ -14,15 +15,15 @@ public class CameraController : MonoBehaviour
 
     }
 
-    public void SetFollowCharacter(Transform characterTransform)
+    public void SetFollowCharacter(Transform transformCamera,Transform characterTransform)
     {
-        freeLookCamera.Follow = characterTransform;
-        freeLookCamera.LookAt = characterTransform;
+        freeLookCamera.Follow = transformCamera;
+        freeLookCamera.LookAt = transformCamera;
+        player= characterTransform.gameObject.GetComponent<PlayerController>();
     }
     public void RemoveFollowCharacter()
     {
         freeLookCamera.Follow = null;
-        
     }
 
 
@@ -30,7 +31,8 @@ public class CameraController : MonoBehaviour
     {
         if (axisName == "Mouse X")
         {
-            if (Input.GetKey("mouse 0"))
+            if (Input.GetKey("mouse 0") && player.GetCurrentState()==CharacterState.Normal
+                && Input.mousePosition.x>Screen.width/2)
             {
                 return UnityEngine.Input.GetAxis("Mouse X");
             }
@@ -41,7 +43,8 @@ public class CameraController : MonoBehaviour
         }
         else if (axisName == "Mouse Y")
         {
-            if (Input.GetKey("mouse 0"))
+            if (Input.GetKey("mouse 0") && player.GetCurrentState() == CharacterState.Normal
+                && Input.mousePosition.x > Screen.width / 2)
             {
                 return UnityEngine.Input.GetAxis("Mouse Y");
             }

@@ -41,7 +41,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [SerializeField]
     GameObject basicAttackObject;
     [SerializeField]
-    Transform basicAttackTransform;
+    Transform basicAttackTransform, transformCamera;
     [SerializeField]
     TextMeshProUGUI textHealth;
 
@@ -58,7 +58,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
-            Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+            Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera, transform);
         }
     }
     void Update()
@@ -188,8 +188,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                     break; }
         }
         currentState = newCatState;
-
     }
+    public CharacterState GetCurrentState() { return currentState; }
 
     private void CalculateAnimSpeed(string animationName,float speed, bool isMoveX)
     {
@@ -256,7 +256,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             if (isFollow)
             {
-                Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+                Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera,transform);
             }
             else
             {
