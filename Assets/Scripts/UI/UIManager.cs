@@ -7,9 +7,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Fusion;
 
 public class UIManager : MonoBehaviour
 {
+    
     int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
     // Start is called before the first frame update
@@ -23,7 +25,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {
@@ -129,7 +131,8 @@ public class UIManager : MonoBehaviour
             }
 
         }
-       // numberHealPotionTMP.text = numberHealPotionInt.ToString();
-        //numberManaPotionTMP.text = numberManaPotionInt.ToString();
+       
     }
+    
+    
 }

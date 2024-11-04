@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
     {
         if (axisName == "Mouse X")
         {
-            if (Input.GetKey("mouse 0") && player.GetCurrentState()==CharacterState.Normal
+            if (Input.GetKey("mouse 0") && player.GetCurrentState()==0
                 && Input.mousePosition.x>Screen.width/2)
             {
                 return UnityEngine.Input.GetAxis("Mouse X");
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
         }
         else if (axisName == "Mouse Y")
         {
-            if (Input.GetKey("mouse 0") && player.GetCurrentState() == CharacterState.Normal
+            if (Input.GetKey("mouse 0") && player.GetCurrentState() == 0
                 && Input.mousePosition.x > Screen.width / 2)
             {
                 return UnityEngine.Input.GetAxis("Mouse Y");

@@ -29,18 +29,19 @@ public class NetworkManager : MonoBehaviour
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
-            runner.Spawn(playerManagerObj, inputAuthority: player);
+          runner.Spawn(playerManagerObj, inputAuthority: player);
         }
 
         if (player == runner.LocalPlayer)
         {
             NetworkObject robo = runner.Spawn(character, spawnPoint.position, Quaternion.identity, inputAuthority: player);
-                /*, onBeforeSpawned: OnBeforeSpawned);
+           // StartCoroutine(DrawSkillButton(m_runner,player));
+            /*, onBeforeSpawned: OnBeforeSpawned);
 
-            void OnBeforeSpawned(NetworkRunner runner, NetworkObject roboObject)
-            {
-                
-            }*/
+        void OnBeforeSpawned(NetworkRunner runner, NetworkObject roboObject)
+        {
+
+        }*/
         }
     }
     public async void OnClickBtn(Button btn)
@@ -58,8 +59,33 @@ public class NetworkManager : MonoBehaviour
                 CustomLobbyName = "VN",
                 SceneManager = GetComponent<LoadSceneManager>()
             });
+            
             onConnected?.Invoke();
             Singleton<Loading>.Instance.HideLoading();
+            
         }
+    }
+    [SerializeField] Transform[] m_gridRoot;
+    [SerializeField] SkillButton m_skillBtnPrefab;
+    private Dictionary<SkillName, int> m_skillCollecteds;
+    public IEnumerator DrawSkillButton(NetworkRunner m_runner, PlayerRef player)
+    {
+        yield return new WaitForSeconds(0.1f);
+        m_skillCollecteds = FindObjectOfType<SkillManager>().SkillCollecteds;
+        //if (m_skillCollecteds == null || m_skillCollecteds.Count <= 0) return;
+        int index = -1;
+        Debug.Log(m_skillCollecteds.Count);
+        foreach (var skillCollected in m_skillCollecteds)
+        {
+            index++;
+            Helper.ClearChilds(m_gridRoot[index]);
+            var skillButtonClone = runner.Spawn(m_skillBtnPrefab, inputAuthority: player);
+            Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
+                Vector3.zero, index == 4 ? Vector3.one * 1f : (index==0? 0.5f* Vector3.one:  0.7f *Vector3.one));
+            skillButtonClone.Initialize(skillCollected.Key);
+            skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
+
+        }
+
     }
 }

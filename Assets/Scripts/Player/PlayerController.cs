@@ -1,22 +1,16 @@
-using Fusion;
+﻿using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem.XR;
 using static Cinemachine.DocumentationSortingAttribute;
+using static UnityEditorInternal.VersionControl.ListControl;
 
-public enum CharacterState
-{
-    Normal,
-    Jump,
-    BasicAttack,
-    Injured,
-    Die,
 
-}
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
     PlayerStat playerStat = new PlayerStat(maxHealth: 100, maxMana:50, damage:20);
@@ -28,22 +22,35 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     float speed;
     private int targetX, targetY, beforeTarget;
     private float previousSpeedX, currentSpeedX,previousSpeedY, currentSpeedY;
-    bool isGround;
+    public bool isGround;
     [Networked]
-    bool isJumping {get;set;}
+    public bool isJumping {get;set;}
     [Networked]
     bool isBasicAttackAttack { get; set; }
     [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
+
+    // 0 là normal
+    // 1 là jump
+    // 2 là injured
+    // 3 là die
+    // 4 là normal attack
+    // 5 là đang cast skill
+    [Networked(OnChanged = nameof(listenState))]
     [SerializeField]
-    CharacterState currentState;
+    public int state { get; set; }
+    
+    
     [SerializeField]
     GameObject basicAttackObject;
     [SerializeField]
     Transform basicAttackTransform, transformCamera;
     [SerializeField]
     TextMeshProUGUI textHealth;
+    [SerializeField] Player_Types playerType;
+    public SkillButton[] skillButtons;
+
 
     private void Awake()
     {
@@ -54,31 +61,67 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
+        
        
-
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
             Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera, transform);
+            Singleton<PlayerManager>.Instance.SetRunner(Runner);
         }
+    }
+    private void Start()
+    {
+        
+    }
+    public void Jump()
+    {
+        if (!HasStateAuthority) return;
+        isGround = false;
+        animator.SetTrigger("Jump");
+        velocity += new Vector3(0, 50f, 0);
+    }
+    public void Skill_1()
+    {
+
+    }
+
+    public void Skill_2()
+    {
+
+    }
+
+    public void Ultimate()
+    {
+
+    }
+
+    public void NormalAttack()
+    {
+        
+            animator.SetTrigger("Attack");
+            Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
+     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+     {
+         obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
+     }
+                        );
+            isBasicAttackAttack = false;
+        
+
     }
     void Update()
     {
-        if (currentState == CharacterState.BasicAttack || currentState == CharacterState.Jump)
+        if (state==1 || state == 4)
         {
             return;
         }
-        moveInput =characterInput.Character.Move.ReadValue<Vector2>();
-         if(characterInput.Character.Jump.triggered &&isGround)
-        {
-            isJumping = true;
-        };
+       
+            moveInput = state != 5? characterInput.Character.Move.ReadValue<Vector2>() : Vector2.zero;
+        
+         
         if (isGround)
         {
             velocity = Vector3.zero;
-        }
-        if (characterInput.Character.Attack.triggered && currentState==CharacterState.Normal)
-        {
-            isBasicAttackAttack = true;
         }
         
     }
@@ -137,59 +180,51 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (currentState==CharacterState.BasicAttack)
+        if (state == 4)
         {
             return;
         }
-        if (isJumping&& HasStateAuthority)
+        if ( state!=5)
         {
-            isGround=false;
-            Jump(50);
-            Debug.Log("jump");
+            
         }
-     CalculateMove();
-        if (isBasicAttackAttack && isGround)
-        {
-            animator.SetTrigger("Attack");
-            Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority:Object.InputAuthority
-     ,onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-     {
-         obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
-     }
-                        );
-            isBasicAttackAttack = false;
-        }
-        textHealth.text=((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
+        CalculateMove();
+        textHealth.text = ((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
     }
+
     
-    public void SwithCharacterState(CharacterState newCatState)
+    protected static void listenState(Changed<PlayerController> changed)
+    {
+
+    }
+    public void SwithCharacterState(int newstate)
     {
         //Khi ket thuc trang thai cu thi toi lam gi do...
-        switch (currentState)
+        switch (state)
         {
-            case CharacterState.Normal: { break; }
-            case CharacterState.BasicAttack: { break; }
-            case CharacterState.Injured: { break; }
-            case CharacterState.Die: { break; }
+            case 0: { break; }
+            case 1: { break; }
+            case 2: { break; }
+            case 3: { break; }
         }
         //Bat dau trang thai moi thi toi lam gi do...
-        switch (newCatState)
+        switch (newstate)
         {
-            case CharacterState.Normal: { break; }
-            case CharacterState.BasicAttack: { break; }
-            case CharacterState.Injured:
-                {
-                    
-                    break;
-                }
-            case CharacterState.Die: 
+            case 0: { break; }
+            case 1: { break; }
+            case 2: { break; }
+            case 3:
                 {
                     animator.SetTrigger("Die");
-                    break; }
+                    break;
+                }
         }
-        currentState = newCatState;
+        state = newstate;
     }
-    public CharacterState GetCurrentState() { return currentState; }
+    public int GetCurrentState()
+    {
+        return state;
+    }
 
     private void CalculateAnimSpeed(string animationName,float speed, bool isMoveX)
     {
@@ -243,13 +278,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             time += Time.deltaTime;
         }
     }
-    void Jump(float jumpHeight)
-    {
-        isJumping = false;
-        animator.SetTrigger("Jump");
-        velocity += new Vector3(0, jumpHeight , 0);
-
-    }
+   
     public void CheckCamera(PlayerRef player, bool isFollow)
     {
         if (player == Runner.LocalPlayer)
@@ -288,19 +317,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         else
         {
             playerStat.currentHealth = 0;
-            SwithCharacterState(CharacterState.Die);
+            SwithCharacterState(3);
         }
         
     }
-    /*private void OnCollisionEnter(Collision hit)
+    public Player_Types GetPlayerTypes()
     {
-        InventoryItemBase item = hit.collider.GetComponent<InventoryItemBase>();
-        if (item != null)
-        {
-           Inventory.instance.AddItem(item);
-        }
-        
-    }*/
+        return playerType;
+    }
     private void OnTriggerEnter(Collider other)
     {
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();

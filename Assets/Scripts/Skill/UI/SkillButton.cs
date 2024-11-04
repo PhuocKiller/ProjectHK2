@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Cinemachine;
+using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SkillButton : MonoBehaviour
+public class SkillButton : NetworkBehaviour
 {
     [SerializeField] Image m_skillIcon;
     [SerializeField] Image m_CooldownOverlay;
@@ -14,9 +17,12 @@ public class SkillButton : MonoBehaviour
     [SerializeField] Text m_cooldownTxt;
     [SerializeField] Button m_btnComp;
 
-    SkillType m_skillType;
+    SkillName m_skillType;
     SkillController m_skillController;
     int m_currentAmount;
+    public SkillButtonTypes[] m_skillButtonTypes;
+    public SkillButtonTypes skillButtonType;
+    public Action Skill_Trigger;
     #region EVENTS
     void RegisterEvent()
     {
@@ -33,10 +39,11 @@ public class SkillButton : MonoBehaviour
         m_skillController.OnCooldownStop.RemoveListener(UpdateUI);
     }
     #endregion
-    public void Initialize(SkillType skillType)
+    public void Initialize(SkillName skillType)
     {
         m_skillType= skillType;
         m_skillController=FindObjectOfType<SkillManager>().GetSkillController(skillType);
+        
         m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
         UpdateUI();
         if (m_btnComp != null)
@@ -70,7 +77,7 @@ public class SkillButton : MonoBehaviour
     private void UpdateCooldown()
     {
         if (m_cooldownTxt)
-        m_cooldownTxt.text= m_skillController.CooldownTime.ToString("f0");
+        m_cooldownTxt.text= m_skillController.CooldownTime.ToString(m_skillController.CooldownTime>=1?"f0":"f1");
         float cooldownProgress= m_skillController.cooldownProgress;
         if (m_CooldownOverlay)
         {
@@ -91,12 +98,58 @@ public class SkillButton : MonoBehaviour
     void TriggerSkill()
     {
         if (m_skillController==null) return;
-        m_skillController.Trigger();
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (state == 0)
+        {
+            if (skillButtonType == SkillButtonTypes.Jump)
+            {
+                player.Jump();
+            }
+            if (skillButtonType == SkillButtonTypes.NormalAttack)
+            {
+                player.NormalAttack();
+            }
+            if (skillButtonType == SkillButtonTypes.Ultimate)
+            {
+                player.Ultimate();
+            }
+            if (skillButtonType == SkillButtonTypes.Skill_2)
+            {
+                player.Skill_2();
+            }
+            if (skillButtonType == SkillButtonTypes.Skill_1)
+            {
+                player.Skill_1();
+            }
+            m_skillController.Trigger();
+        }
+        
+        
+        
         //play âm thanh ở đây
     }
     private void OnDestroy()
     {
         UnRegisterEvent();
+    }
+    public void PointerDown() //khóa camera khi giữ chuột trái tại skill
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (state != 0 || m_skillController.IsCooldowning
+            ||skillButtonType==SkillButtonTypes.Jump ||skillButtonType==SkillButtonTypes.NormalAttack) return;
+        
+        FindObjectOfType<CinemachineFreeLook>().enabled = false;
+        
+        player.enabled = false;
+    }
+    public void PointerUp() //mở camera khi nhả chuột trái
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (state != 0 || m_skillController.IsCooldowning
+            || skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack) return;
+        FindObjectOfType<CinemachineFreeLook>().enabled = true;
+        
+        player.enabled = true;
     }
     
 }

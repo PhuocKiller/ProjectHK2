@@ -7,13 +7,13 @@ using UnityEngine.Events;
 
 public class SkillController : MonoBehaviour
 {
-    public SkillType type;
+    public SkillName name;
     public SkillSO skillStat;
     protected bool m_isTriggered, m_isCooldowning;
     protected float m_cooldownTime;
     protected float m_triggerTime;
     public UnityEvent OnTriggerEnter, OnSkillUpdate, OnCooldown, OnStop,OnCooldownStop;
-    public UnityEvent<SkillType, int> OnStopWithType;
+    public UnityEvent<SkillName, int> OnStopWithType;
     
 
     public float cooldownProgress
@@ -74,7 +74,7 @@ public class SkillController : MonoBehaviour
     {
         m_triggerTime = skillStat.timerTrigger;
         m_isTriggered=false;
-        OnStopWithType?.Invoke(type,1);
+        OnStopWithType?.Invoke(name,1);
         OnStop?.Invoke();
     }
     public void ForceStop()

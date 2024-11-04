@@ -10,4 +10,5 @@ public class SkillSO : ScriptableObject
     public Sprite skillIcon;
     public AudioClip triggerSoundFX;
     public float damage;
+    public GameObject VfxEffect;
 }
