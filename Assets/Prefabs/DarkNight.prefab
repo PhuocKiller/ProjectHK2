@@ -1126,7 +1126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 63402059489775383}
   m_Layer: 0
-  m_Name: VFX
+  m_Name: LightningShieldTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1144,8 +1144,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1571789164216824673}
+  m_Children: []
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4147310218639643016
@@ -2788,8 +2787,7 @@ MonoBehaviour:
   Flags: 2305
   NetworkGuid:
     RawGuidValue: bbf4dafaeb203cd43ba218bdbdc16274
-  NestedObjects:
-  - {fileID: 358066512196863067}
+  NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1002137448909909735}
   - {fileID: 4141041976188049337}
@@ -2947,7 +2945,8 @@ MonoBehaviour:
   textHealth: {fileID: 7596157829984296512}
   playerType: 0
   skillButtons: []
-  swordObject: {fileID: 0}
+  lightningShieldTransform: {fileID: 63402059489775383}
+  lightningShieldVFXPrefab: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,92 +3078,3 @@ Transform:
   - {fileID: 5692271430314720467}
   m_Father: {fileID: 3514460922921831205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &389848545551605007
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 63402059489775383}
-    m_Modifications:
-    - target: {fileID: 112905238209059156, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: Flags
-      value: 3073
-      objectReference: {fileID: 0}
-    - target: {fileID: 112905238209059156, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 112905238209059156, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_Name
-      value: LightningShield
-      objectReference: {fileID: 0}
-    - target: {fileID: 4936111899876941741, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: Flags
-      value: 3073
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
---- !u!114 &358066512196863067 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 112905238209059156, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-  m_PrefabInstance: {fileID: 389848545551605007}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1571789164216824673 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-  m_PrefabInstance: {fileID: 389848545551605007}
-  m_PrefabAsset: {fileID: 0}

@@ -137,32 +137,16 @@ public class SkillButton : NetworkBehaviour
     public void PointerDown() //khóa camera khi giữ chuột trái tại skill
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        //FindObjectOfType<CinemachineFreeLook>().enabled = false;
+
         if (skillType == SkillTypes.Direction_Active)
         {
             if (state != 0 || m_skillController.IsCooldowning) return;
             player.state = 5;
             player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
-            FindObjectOfType<CinemachineFreeLook>().enabled = false;
-            Debug.Log("Vo pointerdown");
+            return;
         }
-       
-    }
-    public void PointerUp() //mở camera khi nhả chuột trái
-    {
-        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (skillType == SkillTypes.Direction_Active)
-        {
-            if (state == 5)
-            {
-                player.gameObject.GetComponent<SkillDirection>().GetMouseUp();
-                FindObjectOfType<CinemachineFreeLook>().enabled = true;
-                player.state = 0;
-                Debug.Log("up" + skillType);
-                m_btnComp.onClick.Invoke();
-            }
-            
-        }
-            
+        
     }
     public void PointDrag()
     {
@@ -170,9 +154,34 @@ public class SkillButton : NetworkBehaviour
         if (state == 5)
         {
             player.gameObject.GetComponent<SkillDirection>().GetMouse();
-            Debug.Log("drag" + skillType);
+          //  Camera.main.transform.rotation= Quaternion.AngleAxis(player.transform.rotation.eulerAngles.y,Vector3.up);
+
         }
-        
+
     }
+    public void PointerUp() //mở camera khi nhả chuột trái
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        StartCoroutine(DelayCameraActiveAgain(0.5f));
+
+        if (skillType == SkillTypes.Direction_Active)
+        {
+            if (state == 5)
+            {
+                player.gameObject.GetComponent<SkillDirection>().GetMouseUp();
+                player.state = 0;
+                m_btnComp.onClick.Invoke();
+                
+            }
+        }
+            
+    }
+    IEnumerator DelayCameraActiveAgain(float time)
+    {
+        yield return new WaitForSeconds(time);
+        FindObjectOfType<CinemachineFreeLook>().enabled = true;
+        Singleton<CameraController>.Instance.StartTransition();
+    }
+    
     
 }

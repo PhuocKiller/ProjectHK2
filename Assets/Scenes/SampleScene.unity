@@ -837,8 +837,8 @@ MonoBehaviour:
   m_BindingMode: 5
   m_FollowOffset: {x: 0, y: 4.547, z: -4}
   m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_YDamping: 0.5
+  m_ZDamping: 0.5
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -2227,7 +2227,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 1000
+    m_MaxSpeed: 500
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -2296,6 +2296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9f0cb0061aacb4bae1c3a037541ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLookAt: {fileID: 0}
+  transitionTime: 1
 --- !u!1 &1401170991
 GameObject:
   m_ObjectHideFlags: 0
@@ -2852,94 +2854,6 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
---- !u!1001 &1717097532
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      propertyPath: m_Name
-      value: DN_LightningShield
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1717097534}
-  m_SourcePrefab: {fileID: 100100000, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
---- !u!1 &1717097533 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
-  m_PrefabInstance: {fileID: 1717097532}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1717097534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1717097533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectInterest: 1
-  DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
-  AllowStateAuthorityOverride: 1
-  AoiPositionSource: {fileID: 0}
-  Flags: 2561
-  NetworkGuid:
-    RawGuidValue: 870b6ce23f5840b5a569493f87352706
-  NestedObjects: []
-  NetworkedBehaviours: []
-  SimulationBehaviours: []
 --- !u!1 &1731863525
 GameObject:
   m_ObjectHideFlags: 0
@@ -16221,4 +16135,3 @@ SceneRoots:
   - {fileID: 583764423}
   - {fileID: 2367244227363925264}
   - {fileID: 943871433}
-  - {fileID: 1717097532}

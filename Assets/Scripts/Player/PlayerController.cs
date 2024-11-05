@@ -96,42 +96,32 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     public void Jump()
     {
-        JumpRPC();
+        isJumping = true;
+
+        AnimatorRPC("Jump");
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void JumpRPC()
+    public void AnimatorRPC(string name)
     {
-        isJumping = true;
-        animator.SetTrigger("Jump");
-       // velocity += new Vector3(0, 50f, 0);
+        animator.SetTrigger(name);
     }
     public virtual void Skill_1()
     {
-        Skill_1RPC();
+        AnimatorRPC("Skill_1");
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void Skill_1RPC()
-    {
-        animator.SetTrigger("Skill_1");
-    }
+    
     public virtual void Skill_2()
     {
 
     }
-
     public virtual void Ultimate()
     {
-        UltimateRPC();
+        AnimatorRPC("Ultimate");
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void UltimateRPC()
-    {
-        animator.SetTrigger("Ultimate");
-    }
-
+   
     public  virtual void NormalAttack()
     {
-        NormalAttackRPC();
+        AnimatorRPC("Attack");
         /*Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
  , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
  {
@@ -140,11 +130,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                     );
         isBasicAttackAttack = false;*/
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void NormalAttackRPC()
-    {
-        animator.SetTrigger("Attack");
-    }
+   
     void Update()
     {
         if (state==3 || state == 4)
@@ -195,8 +181,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 
                 characterControllerPrototype.Move(angleCamera*moveDirection * speed *3* Time.deltaTime);
             }
-            transform.rotation =state==5 ? Quaternion.LookRotation( GetComponent<SkillDirection>().directionNormalize)
-                : angleCamera;
+            Quaternion look= state == 5 ? Quaternion.LookRotation(GetComponent<SkillDirection>().directionNormalize): angleCamera;
+            transform.rotation= Quaternion.RotateTowards(transform.rotation, look, 720* Runner.DeltaTime);
             if (!isGround)
             {
                 if (isJumping)

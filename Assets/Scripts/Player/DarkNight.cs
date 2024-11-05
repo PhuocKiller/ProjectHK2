@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class DarkNight : PlayerController
 {
-    [SerializeField] GameObject swordObject;
+    [SerializeField] Transform lightningShieldTransform;
+    [SerializeField] GameObject lightningShieldVFXPrefab;
+    TickTimer timerSkill2;
     public override void NormalAttack()
     {
         base.NormalAttack();
@@ -16,9 +18,13 @@ public class DarkNight : PlayerController
      }
                         );
     }
-    IEnumerator DeactiveSword()
+    public override void Skill_2()
     {
-        yield return new WaitForSeconds(1);
-        swordObject.SetActive(false);
+        base.Skill_2();
+        NetworkObject obj=Runner.Spawn(lightningShieldVFXPrefab, lightningShieldTransform.position, Quaternion.identity, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.transform.SetParent(lightningShieldTransform);
+            });
     }
 }
