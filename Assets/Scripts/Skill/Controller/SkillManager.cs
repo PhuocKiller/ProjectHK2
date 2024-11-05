@@ -33,13 +33,13 @@ public class SkillManager : MonoBehaviour
             if (skillController == null) continue;
             skillController.LoadStat();
             skillController.OnStopWithType.AddListener(RemoveSkill);
-            m_skillCollecteds.Add(skillController.name, 1);
+            m_skillCollecteds.Add(skillController.skillName, 1);
         }
 
     }
     public SkillController GetSkillController(SkillName type)
     {
-        var findeds= m_skillControllers.Where(s=>s.name == type).ToArray();
+        var findeds= m_skillControllers.Where(s=>s.skillName == type).ToArray();
         if (findeds == null || findeds.Length <= 0) return null;
         return findeds[0];
     }

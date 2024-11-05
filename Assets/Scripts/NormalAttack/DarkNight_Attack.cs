@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicAttackObject : NetworkBehaviour
+public class DarkNight_Attack : NetworkBehaviour
 {
-
     private Vector3 direction;
     private NetworkRigidbody rb;
 
@@ -19,8 +18,6 @@ public class BasicAttackObject : NetworkBehaviour
         rb = GetComponent<NetworkRigidbody>();
         if (HasStateAuthority && HasInputAuthority)
         {
-            rb.Rigidbody.AddForce(direction * 2000);
-            transform.forward = direction;
             timer = TickTimer.CreateFromSeconds(Runner, 1f);
         }
     }
@@ -40,15 +37,16 @@ public class BasicAttackObject : NetworkBehaviour
     {
         direction = newDirection;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (HasStateAuthority
             && other.gameObject.layer == 7
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && collisions.Count == 0
-           /* && (other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 0
-                  ||
-              other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 1)*/
+            /* && (other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 0
+                   ||
+               other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 1)*/
             )
         {
             collisions.Add(other);

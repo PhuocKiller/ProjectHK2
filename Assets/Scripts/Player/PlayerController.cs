@@ -30,7 +30,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
-
+    
     // 0 là normal
     // 1 là jump
     // 2 là injured
@@ -43,9 +43,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     
     
     [SerializeField]
-    GameObject basicAttackObject;
+    public GameObject basicAttackObject;
     [SerializeField]
-    Transform basicAttackTransform, transformCamera;
+    public Transform basicAttackTransform, transformCamera;
     [SerializeField]
     TextMeshProUGUI textHealth;
     [SerializeField] Player_Types playerType;
@@ -75,43 +75,44 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     public void Jump()
     {
-        if (!HasStateAuthority) return;
-        isGround = false;
-        animator.SetTrigger("Jump");
-        velocity += new Vector3(0, 50f, 0);
+        JumpRPC();
     }
-    public void Skill_1()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void JumpRPC()
+    {
+        isJumping = true;
+    }
+    public virtual void Skill_1()
     {
 
     }
 
-    public void Skill_2()
+    public virtual void Skill_2()
     {
 
     }
 
-    public void Ultimate()
+    public virtual void Ultimate()
     {
 
     }
 
-    public void NormalAttack()
+    public  virtual void NormalAttack()
     {
-        
             animator.SetTrigger("Attack");
-            Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
+            /*Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
          obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
      }
                         );
-            isBasicAttackAttack = false;
+            isBasicAttackAttack = false;*/
         
 
     }
     void Update()
     {
-        if (state==1 || state == 4)
+        if (state==3 || state == 4)
         {
             return;
         }
@@ -122,6 +123,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (isGround)
         {
             velocity = Vector3.zero;
+        }
+        if( Input.GetKeyDown(KeyCode.Space) && Object.HasInputAuthority )
+        {
+            
         }
         
     }
@@ -155,7 +160,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 
                 characterControllerPrototype.Move(angleCamera*moveDirection * speed *3* Time.deltaTime);
             }
-            transform.rotation = angleCamera;
+            transform.rotation =state==5 ? Quaternion.LookRotation( GetComponent<SkillDirection>().directionNormalize)
+                : angleCamera;
             if (!isGround)
             {
                 if (isJumping)
@@ -166,9 +172,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
                 characterControllerPrototype.Move(velocity * Time.deltaTime);
             }
-            else if (isJumping)
+            else 
             {
-                isGround = false;
+                //isGround = false;
                 velocity.y=0;
                // velocity.y += 5f;
                 characterControllerPrototype.Move(velocity * Time.deltaTime);
@@ -188,8 +194,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             
         }
+       
         CalculateMove();
+        if (isJumping )
+        {
+            isGround = false;
+            animator.SetTrigger("Jump");
+            velocity += new Vector3(0, 50f, 0);
+        }
         textHealth.text = ((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
+        
     }
 
     
@@ -211,7 +225,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         switch (newstate)
         {
             case 0: { break; }
-            case 1: { break; }
+            case 1: { break;  }
             case 2: { break; }
             case 3:
                 {

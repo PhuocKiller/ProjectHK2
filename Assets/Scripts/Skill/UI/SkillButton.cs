@@ -17,11 +17,13 @@ public class SkillButton : NetworkBehaviour
     [SerializeField] Text m_cooldownTxt;
     [SerializeField] Button m_btnComp;
 
-    SkillName m_skillType;
+    
     SkillController m_skillController;
     int m_currentAmount;
     public SkillButtonTypes[] m_skillButtonTypes;
     public SkillButtonTypes skillButtonType;
+    public SkillTypes skillType;
+    [SerializeField] SkillName m_skillName;
     public Action Skill_Trigger;
     #region EVENTS
     void RegisterEvent()
@@ -39,11 +41,11 @@ public class SkillButton : NetworkBehaviour
         m_skillController.OnCooldownStop.RemoveListener(UpdateUI);
     }
     #endregion
-    public void Initialize(SkillName skillType)
+    public void Initialize(SkillName skillName)
     {
-        m_skillType= skillType;
-        m_skillController=FindObjectOfType<SkillManager>().GetSkillController(skillType);
-        
+        m_skillName= skillName;
+        m_skillController=FindObjectOfType<SkillManager>().GetSkillController(skillName);
+        skillType= m_skillController.skillType;
         m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
         UpdateUI();
         if (m_btnComp != null)
@@ -88,7 +90,7 @@ public class SkillButton : NetworkBehaviour
 
     private void UpdateAmountTxt()
     {
-        m_currentAmount= FindObjectOfType<SkillManager>().GetSkillAmount(m_skillType);
+        m_currentAmount= FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
         if (m_amountTxt)
         {
             m_amountTxt.text = $"x {m_currentAmount}";
@@ -135,21 +137,42 @@ public class SkillButton : NetworkBehaviour
     public void PointerDown() //khóa camera khi giữ chuột trái tại skill
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (state != 0 || m_skillController.IsCooldowning
-            ||skillButtonType==SkillButtonTypes.Jump ||skillButtonType==SkillButtonTypes.NormalAttack) return;
-        
-        FindObjectOfType<CinemachineFreeLook>().enabled = false;
-        
-        player.enabled = false;
+        if (skillType == SkillTypes.Direction_Active)
+        {
+            if (state != 0 || m_skillController.IsCooldowning) return;
+            player.state = 5;
+            player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
+            FindObjectOfType<CinemachineFreeLook>().enabled = false;
+            Debug.Log("Vo pointerdown");
+        }
+       
     }
     public void PointerUp() //mở camera khi nhả chuột trái
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (state != 0 || m_skillController.IsCooldowning
-            || skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack) return;
-        FindObjectOfType<CinemachineFreeLook>().enabled = true;
+        if (skillType == SkillTypes.Direction_Active)
+        {
+            if (state == 5)
+            {
+                player.gameObject.GetComponent<SkillDirection>().GetMouseUp();
+                FindObjectOfType<CinemachineFreeLook>().enabled = true;
+                player.state = 0;
+                Debug.Log("up" + skillType);
+                m_btnComp.onClick.Invoke();
+            }
+            
+        }
+            
+    }
+    public void PointDrag()
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (state == 5)
+        {
+            player.gameObject.GetComponent<SkillDirection>().GetMouse();
+            Debug.Log("drag" + skillType);
+        }
         
-        player.enabled = true;
     }
     
 }

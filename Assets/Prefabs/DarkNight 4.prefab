@@ -632,7 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 0
+  skillName: 0
+  skillType: 0
   skillStat: {fileID: 11400000, guid: 642638219513bb348ad4c78be9c7afcc, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -1695,7 +1696,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5040648328335182286}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1916,10 +1917,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 301967881547607831}
-  - {fileID: 8439317989326956875}
-  - {fileID: 96333267875581532}
-  - {fileID: 7291663296504777431}
   - {fileID: 934443159678920830}
+  - {fileID: 8439317989326956875}
+  - {fileID: 7291663296504777431}
+  - {fileID: 96333267875581532}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4732001779785360339
@@ -1936,10 +1937,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_skillControllers:
   - {fileID: 7813881329666471997}
-  - {fileID: 5444415010937747835}
   - {fileID: 4662082089893723454}
-  - {fileID: 5988639432067642820}
+  - {fileID: 5444415010937747835}
   - {fileID: 8205854289906227358}
+  - {fileID: 5988639432067642820}
   m_skillBtnDrawer: {fileID: 0}
 --- !u!1 &6420269052463752608
 GameObject:
@@ -2092,7 +2093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 2
+  skillName: 2
+  skillType: 2
   skillStat: {fileID: 11400000, guid: 6ed89ea9f66b1cf48a740920ed381f57, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2156,7 +2158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 1
+  skillName: 1
+  skillType: 0
   skillStat: {fileID: 11400000, guid: d28c96c57a4e65a46a0e008fada44bb6, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2486,7 +2489,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 3
+  skillName: 3
+  skillType: 1
   skillStat: {fileID: 11400000, guid: abe71e631c694a94c99a01efadfe349d, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2676,15 +2680,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7538871953370813433}
   - component: {fileID: 7559582963056769917}
-  - component: {fileID: 1782151918923119631}
   - component: {fileID: 9168743344057428983}
   - component: {fileID: 1002137448909909735}
   - component: {fileID: 6160381382846009959}
   - component: {fileID: 4141041976188049337}
   - component: {fileID: 90528979900811370}
   - component: {fileID: 6344799376450209239}
+  - component: {fileID: 6247263073182080304}
   m_Layer: 7
-  m_Name: DarkNightCharacter
+  m_Name: DarkNight 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2703,8 +2707,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 222586208559387751}
   - {fileID: 6646850674754267561}
+  - {fileID: 222586208559387751}
   - {fileID: 9041920499944046179}
   - {fileID: 5195282222050242245}
   - {fileID: 6300876624155511018}
@@ -2731,30 +2735,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1782151918923119631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8523547410306454324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2a9dfcfdf63714bbafc6e001345bfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
-  isGround: 0
-  _isJumping: 0
-  _state: 0
-  basicAttackObject: {fileID: 3994659860011643894, guid: fee3a9b751ffc504ab7a40b1120ae742, type: 3}
-  basicAttackTransform: {fileID: 222586208559387751}
-  transformCamera: {fileID: 9041920499944046179}
-  textHealth: {fileID: 7596157829984296512}
-  playerType: 0
-  skillButtons: []
 --- !u!114 &9168743344057428983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2774,12 +2754,12 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: bbf4dafaeb203cd43ba218bdbdc16274
+    RawGuidValue: 8cf9a8bfedff96f42820c2e94fc30b07
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 1782151918923119631}
   - {fileID: 1002137448909909735}
   - {fileID: 4141041976188049337}
+  - {fileID: 6247263073182080304}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:
@@ -2907,6 +2887,33 @@ MonoBehaviour:
   ImageParent: {fileID: 7975102466822844499}
   skillImage: {fileID: 0}
   skillDuration: 0.5
+  direction: {x: 0, y: 0, z: 0}
+  directionNormalize: {x: 0, y: 0, z: 0}
+  fixPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &6247263073182080304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8523547410306454324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62b904f7af551842934d257bb17da5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  isGround: 0
+  _isJumping: 0
+  _state: 0
+  basicAttackObject: {fileID: 0}
+  basicAttackTransform: {fileID: 0}
+  transformCamera: {fileID: 9041920499944046179}
+  textHealth: {fileID: 7596157829984296512}
+  playerType: 0
+  skillButtons: []
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2951,7 +2958,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 4
+  skillName: 4
+  skillType: 3
   skillStat: {fileID: 11400000, guid: b1a8cdbb0402e1f42bbe43a8c82dfc01, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:

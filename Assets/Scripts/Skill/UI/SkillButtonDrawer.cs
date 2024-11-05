@@ -13,7 +13,6 @@ public class SkillButtonDrawer : MonoBehaviour
         m_skillCollecteds = FindObjectOfType<SkillManager>().SkillCollecteds;
         if (m_skillCollecteds == null || m_skillCollecteds.Count <= 0) return;
         int index = -1;
-        Debug.Log(m_skillCollecteds.Count);
         foreach (var skillCollected in m_skillCollecteds)
         {
             index++;

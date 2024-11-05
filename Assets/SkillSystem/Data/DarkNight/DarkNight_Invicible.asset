@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DarkNight_Invicible
   m_EditorClassIdentifier: 
   timerTrigger: 1
-  cooldownTime: 1
+  cooldownTime: 30
   skillIcon: {fileID: 21300000, guid: 816356a807a466e4ca5bcdf016773cfc, type: 3}
   triggerSoundFX: {fileID: 0}
   damage: 0
