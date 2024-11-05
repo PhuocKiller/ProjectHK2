@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9174069346993710721}
   m_Layer: 7
-  m_Name: SwordTransformPosition
+  m_Name: NormalAttackTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,11 +56,11 @@ Transform:
   m_GameObject: {fileID: 171417583468789814}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.914, z: 1.661}
+  m_LocalPosition: {x: 0, y: 0.9, z: 1.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7538871953370813433}
+  m_Father: {fileID: 3737519445509147739}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307892797014026318
 GameObject:
@@ -335,6 +335,41 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000007033348, y: 1.7651997, z: 0.023281455}
     m_Extent: {x: 0.54316646, y: 0.5493083, z: 0.50851226}
   m_DirtyAABB: 0
+--- !u!1 &702719021967522939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3737519445509147739}
+  m_Layer: 0
+  m_Name: AllSkillTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3737519445509147739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702719021967522939}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9174069346993710721}
+  - {fileID: 5979522166566291649}
+  - {fileID: 63402059489775383}
+  - {fileID: 593957936549350129}
+  m_Father: {fileID: 7538871953370813433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1193230628888967648
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +528,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000022992492, y: 0.8347354, z: -0.01029107}
     m_Extent: {x: 0.4020757, y: 0.45833603, z: 0.375846}
   m_DirtyAABB: 0
+--- !u!1 &1535663178095854304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5979522166566291649}
+  m_Layer: 0
+  m_Name: Skill_1Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5979522166566291649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535663178095854304}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3737519445509147739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1761906613501990392
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 0
   skillType: 0
+  VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: 642638219513bb348ad4c78be9c7afcc, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -1126,7 +1193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 63402059489775383}
   m_Layer: 0
-  m_Name: LightningShieldTransform
+  m_Name: Skill_2Transform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1145,7 +1212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7538871953370813433}
+  m_Father: {fileID: 3737519445509147739}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4147310218639643016
 GameObject:
@@ -2048,6 +2115,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6488970804715885185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 593957936549350129}
+  m_Layer: 0
+  m_Name: UltimateTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &593957936549350129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6488970804715885185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3737519445509147739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6491433150174658998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2189,7 @@ GameObject:
   - component: {fileID: 934443159678920830}
   - component: {fileID: 8205854289906227358}
   m_Layer: 0
-  m_Name: ElectricSword
+  m_Name: Skill_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2126,6 +2224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 2
   skillType: 2
+  VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: 6ed89ea9f66b1cf48a740920ed381f57, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2156,7 +2255,7 @@ GameObject:
   - component: {fileID: 96333267875581532}
   - component: {fileID: 5988639432067642820}
   m_Layer: 0
-  m_Name: SwordManShip
+  m_Name: NormalAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2191,6 +2290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 1
   skillType: 0
+  VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: d28c96c57a4e65a46a0e008fada44bb6, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2487,7 +2587,7 @@ GameObject:
   - component: {fileID: 8439317989326956875}
   - component: {fileID: 5444415010937747835}
   m_Layer: 0
-  m_Name: LightningShield
+  m_Name: Skill_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2522,6 +2622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 3
   skillType: 1
+  VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: abe71e631c694a94c99a01efadfe349d, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:
@@ -2742,8 +2843,7 @@ Transform:
   - {fileID: 9041920499944046179}
   - {fileID: 5195282222050242245}
   - {fileID: 6300876624155511018}
-  - {fileID: 9174069346993710721}
-  - {fileID: 63402059489775383}
+  - {fileID: 3737519445509147739}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7559582963056769917
@@ -2938,6 +3038,10 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   isGround: 0
+  normalAttackTransform: {fileID: 9174069346993710721}
+  skill_1Transform: {fileID: 5979522166566291649}
+  skill_2Transform: {fileID: 63402059489775383}
+  ultimateTransform: {fileID: 593957936549350129}
   _state: 0
   basicAttackObject: {fileID: 5856153804408893940, guid: d7b339195768a3347928779193243e6b, type: 3}
   basicAttackTransform: {fileID: 9174069346993710721}
@@ -2945,8 +3049,6 @@ MonoBehaviour:
   textHealth: {fileID: 7596157829984296512}
   playerType: 0
   skillButtons: []
-  lightningShieldTransform: {fileID: 63402059489775383}
-  lightningShieldVFXPrefab: {fileID: 1289543790355709915, guid: 7f78127dc5cd55f4a802a23667c13b52, type: 3}
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,7 +3060,7 @@ GameObject:
   - component: {fileID: 7291663296504777431}
   - component: {fileID: 4662082089893723454}
   m_Layer: 0
-  m_Name: Invicible
+  m_Name: Ultimate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2993,6 +3095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 4
   skillType: 3
+  VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: b1a8cdbb0402e1f42bbe43a8c82dfc01, type: 2}
   OnTriggerEnter:
     m_PersistentCalls:

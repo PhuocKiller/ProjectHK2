@@ -30,7 +30,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
-    
+    [SerializeField]public Transform normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform;
+
     // 0 là normal
     // 1 là jump
     // 2 là injured
@@ -112,7 +113,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
 
-    public void Jump()
+    public void Jump(GameObject VFXEffect)
     {
         isJumping = true;
 
@@ -123,21 +124,21 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         animator.SetTrigger(name);
     }
-    public virtual void Skill_1()
+    public virtual void Skill_1(GameObject VFXEffect)
     {
         AnimatorRPC("Skill_1");
     }
     
-    public virtual void Skill_2()
+    public virtual void Skill_2(GameObject VFXEffect)
     {
 
     }
-    public virtual void Ultimate()
+    public virtual void Ultimate(GameObject VFXEffect)
     {
         AnimatorRPC("Ultimate");
     }
    
-    public  virtual void NormalAttack()
+    public  virtual void NormalAttack(GameObject VFXEffect)
     {
         AnimatorRPC("Attack");
     }

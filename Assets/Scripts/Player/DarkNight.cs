@@ -5,26 +5,25 @@ using UnityEngine;
 
 public class DarkNight : PlayerController
 {
-    [SerializeField] Transform lightningShieldTransform;
-    [SerializeField] GameObject lightningShieldVFXPrefab;
     TickTimer timerSkill2;
-    public override void NormalAttack()
+    public override void NormalAttack(GameObject VFXEffect)
     {
-        base.NormalAttack();
-        Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
+        base.NormalAttack(VFXEffect);
+        Runner.Spawn(VFXEffect, normalAttackTransform.position, Quaternion.identity, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
+         obj.gameObject.GetComponent<BasicAttackObject>().timer = TickTimer.CreateFromSeconds(Runner, 100f);
+         obj.transform.SetParent(normalAttackTransform);
      }
                         );
     }
-    public override void Skill_2()
+    public override void Skill_2(GameObject VFXEffect)
     {
-        base.Skill_2();
-        NetworkObject obj=Runner.Spawn(lightningShieldVFXPrefab, lightningShieldTransform.position, Quaternion.identity, Object.InputAuthority,
+        base.Skill_2(VFXEffect);
+        NetworkObject obj=Runner.Spawn(VFXEffect, skill_2Transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.transform.SetParent(lightningShieldTransform);
+                obj.transform.SetParent(skill_2Transform);
             });
     }
 }

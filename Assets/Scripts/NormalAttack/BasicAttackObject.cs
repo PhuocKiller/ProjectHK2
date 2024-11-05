@@ -11,7 +11,7 @@ public class BasicAttackObject : NetworkBehaviour
 
     private List<Collider> collisions = new List<Collider>();
 
-    private TickTimer timer;
+    public TickTimer timer;
     public override void Spawned()
     {
         base.Spawned();

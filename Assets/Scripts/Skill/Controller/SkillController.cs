@@ -9,6 +9,7 @@ public class SkillController : MonoBehaviour
 {
     public SkillName skillName;
     public SkillTypes skillType;
+    public GameObject VFXPrefab;
     public SkillSO skillStat;
     protected bool m_isTriggered, m_isCooldowning;
     protected float m_cooldownTime;
@@ -33,6 +34,7 @@ public class SkillController : MonoBehaviour
         if (skillStat == null) return;
         m_cooldownTime = skillStat.cooldownTime;
         m_triggerTime = skillStat.timerTrigger;
+        VFXPrefab = skillStat.VfxEffect;
     }
     public void Trigger() //khi ấn button lệnh ở đây
     {

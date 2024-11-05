@@ -23,6 +23,7 @@ public class SkillButton : NetworkBehaviour
     public SkillButtonTypes[] m_skillButtonTypes;
     public SkillButtonTypes skillButtonType;
     public SkillTypes skillType;
+    public GameObject VFXPrefab;
     [SerializeField] SkillName m_skillName;
     public Action Skill_Trigger;
     #region EVENTS
@@ -46,6 +47,7 @@ public class SkillButton : NetworkBehaviour
         m_skillName= skillName;
         m_skillController=FindObjectOfType<SkillManager>().GetSkillController(skillName);
         skillType= m_skillController.skillType;
+        VFXPrefab = m_skillController.skillStat.VfxEffect;
         m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
         UpdateUI();
         if (m_btnComp != null)
@@ -105,23 +107,23 @@ public class SkillButton : NetworkBehaviour
         {
             if (skillButtonType == SkillButtonTypes.Jump)
             {
-                player.Jump();
+                player.Jump(VFXPrefab);
             }
             if (skillButtonType == SkillButtonTypes.NormalAttack)
             {
-                player.NormalAttack();
+                player.NormalAttack(VFXPrefab);
             }
             if (skillButtonType == SkillButtonTypes.Ultimate)
             {
-                player.Ultimate();
+                player.Ultimate(VFXPrefab);
             }
             if (skillButtonType == SkillButtonTypes.Skill_2)
             {
-                player.Skill_2();
+                player.Skill_2(VFXPrefab);
             }
             if (skillButtonType == SkillButtonTypes.Skill_1)
             {
-                player.Skill_1();
+                player.Skill_1(VFXPrefab);
             }
             m_skillController.Trigger();
         }
