@@ -171,7 +171,9 @@ public class SkillButton : NetworkBehaviour
                 player.gameObject.GetComponent<SkillDirection>().GetMouseUp();
                 player.state = 0;
                 m_btnComp.onClick.Invoke();
-                
+                player.enabled = false;
+                Camera.main.transform.rotation =
+                    Quaternion.LookRotation(player.gameObject.GetComponent<SkillDirection>().directionNormalize);
             }
         }
             

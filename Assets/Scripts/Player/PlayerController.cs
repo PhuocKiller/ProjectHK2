@@ -86,14 +86,32 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
 
         CalculateMove();
-        if (isJumping)
-        {
-            isGround = false;
-            velocity += new Vector3(0, 50f, 0);
-        }
+        CalculateJump();
         textHealth.text = ((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
 
     }
+
+    private void CalculateJump()
+    {
+        if (isJumping)
+        {
+            isGround = false;
+            isJumping = false;
+            velocity += new Vector3(0, 50f, 0);
+        }
+        if (isGround)
+        {
+            velocity.y = 0;
+            characterControllerPrototype.Move(velocity * Time.deltaTime);
+        }
+        else
+        {
+            velocity += new Vector3(0, -100f * Runner.DeltaTime, 0);
+
+            characterControllerPrototype.Move(velocity * Time.deltaTime);
+        }
+    }
+
     public void Jump()
     {
         isJumping = true;
@@ -122,13 +140,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public  virtual void NormalAttack()
     {
         AnimatorRPC("Attack");
-        /*Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
- , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
- {
-     obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
- }
-                    );
-        isBasicAttackAttack = false;*/
     }
    
     void Update()
@@ -183,24 +194,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
             Quaternion look= state == 5 ? Quaternion.LookRotation(GetComponent<SkillDirection>().directionNormalize): angleCamera;
             transform.rotation= Quaternion.RotateTowards(transform.rotation, look, 720* Runner.DeltaTime);
-            if (!isGround)
-            {
-                if (isJumping)
-                {
-                    isJumping = false;
-                }
-                velocity += new Vector3(0, -100f * Runner.DeltaTime, 0);
+           
 
-                characterControllerPrototype.Move(velocity * Time.deltaTime);
-            }
-            else 
-            {
-                //isGround = false;
-                velocity.y=0;
-               // velocity.y += 5f;
-                characterControllerPrototype.Move(velocity * Time.deltaTime);
-            }
-            
         }
     }
 
