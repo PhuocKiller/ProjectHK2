@@ -9748,7 +9748,7 @@ GameObject:
   - component: {fileID: 6469354921825657977}
   - component: {fileID: 5744350271466584198}
   m_Layer: 0
-  m_Name: electric sword
+  m_Name: DN_electric sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

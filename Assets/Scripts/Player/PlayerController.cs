@@ -24,7 +24,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     private float previousSpeedX, currentSpeedX,previousSpeedY, currentSpeedY;
     public bool isGround;
     [Networked]
-    public bool isJumping {get;set;}
+     bool isJumping { get; set; }
     [Networked]
     bool isBasicAttackAttack { get; set; }
     [Networked]
@@ -73,20 +73,47 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         
     }
+    public override void FixedUpdateNetwork()
+    {
+        base.FixedUpdateNetwork();
+        if (state == 4)
+        {
+            return;
+        }
+        if (state != 5)
+        {
+
+        }
+
+        CalculateMove();
+        if (isJumping)
+        {
+            isGround = false;
+            velocity += new Vector3(0, 50f, 0);
+        }
+        textHealth.text = ((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
+
+    }
     public void Jump()
     {
         JumpRPC();
     }
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void JumpRPC()
     {
         isJumping = true;
+        animator.SetTrigger("Jump");
+       // velocity += new Vector3(0, 50f, 0);
     }
     public virtual void Skill_1()
     {
-
+        Skill_1RPC();
     }
-
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Skill_1RPC()
+    {
+        animator.SetTrigger("Skill_1");
+    }
     public virtual void Skill_2()
     {
 
@@ -94,21 +121,29 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
     public virtual void Ultimate()
     {
-
+        UltimateRPC();
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void UltimateRPC()
+    {
+        animator.SetTrigger("Ultimate");
     }
 
     public  virtual void NormalAttack()
     {
-            animator.SetTrigger("Attack");
-            /*Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
-     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-     {
-         obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
-     }
-                        );
-            isBasicAttackAttack = false;*/
-        
-
+        NormalAttackRPC();
+        /*Runner.Spawn(basicAttackObject, basicAttackTransform.position, inputAuthority: Object.InputAuthority
+ , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+ {
+     obj.GetComponent<BasicAttackObject>().SetDirection(transform.forward);
+ }
+                    );
+        isBasicAttackAttack = false;*/
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void NormalAttackRPC()
+    {
+        animator.SetTrigger("Attack");
     }
     void Update()
     {
@@ -183,28 +218,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
 
-    public override void FixedUpdateNetwork()
-    {
-        base.FixedUpdateNetwork();
-        if (state == 4)
-        {
-            return;
-        }
-        if ( state!=5)
-        {
-            
-        }
-       
-        CalculateMove();
-        if (isJumping )
-        {
-            isGround = false;
-            animator.SetTrigger("Jump");
-            velocity += new Vector3(0, 50f, 0);
-        }
-        textHealth.text = ((int)playerStat.currentHealth).ToString() + "/" + ((int)playerStat.maxHealth).ToString();
-        
-    }
+    
 
     
     protected static void listenState(Changed<PlayerController> changed)
