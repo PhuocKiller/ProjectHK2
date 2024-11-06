@@ -17,18 +17,7 @@ public class SkillDirection : MonoBehaviour
     }
     void Update()
     {
-        /*if (Input.GetMouseButtonDown(0))
-        {
-            GetMouseDown();
-        }
-        if (Input.GetMouseButton(0))
-        {
-            GetMouse();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            GetMouseUp();
-        }*/
+        
     }
 
     public void GetMouseUp()
@@ -52,8 +41,8 @@ public class SkillDirection : MonoBehaviour
         }
 
         ImageParent.transform.rotation = Quaternion.LookRotation(direction);
-        ImageParent.transform.localScale = new Vector3(1, 1, 1.85f * (hitInfo.point - fixPosition).magnitude);
-        ImageParent.transform.position = hitInfo.point - 0.5f * direction;
+        ImageParent.transform.localScale = new Vector3(1, 1, 0.22f * (hitInfo.point - fixPosition).magnitude);
+        ImageParent.transform.position = hitInfo.point - 0.45f * direction;
         ImageParent.GetComponentInChildren<Image>().enabled = true;
     }
 
