@@ -1271,8 +1271,8 @@ RectTransform:
   m_GameObject: {fileID: 4258313612300199139}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5596827603787578304}
   - {fileID: 4727928886489279169}
@@ -1284,6 +1284,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &4294310371754987956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9127608846253226042}
+  m_Layer: 7
+  m_Name: ParentVisual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9127608846253226042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4294310371754987956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5195282222050242245}
+  m_Father: {fileID: 7538871953370813433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4459941308524516584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,7 +1384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3}
+  m_AnchoredPosition: {x: 0, y: 4.18}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4499403056973388734
@@ -1841,10 +1873,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5130681569329772749}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 943937568005844209}
   - {fileID: 2613625274321128986}
@@ -1853,7 +1885,7 @@ Transform:
   - {fileID: 6820898391289121308}
   - {fileID: 6874755823064365654}
   - {fileID: 4482536036856000530}
-  m_Father: {fileID: 7538871953370813433}
+  m_Father: {fileID: 9127608846253226042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5155729573957024651
 GameObject:
@@ -2841,7 +2873,7 @@ Transform:
   m_Children:
   - {fileID: 6646850674754267561}
   - {fileID: 9041920499944046179}
-  - {fileID: 5195282222050242245}
+  - {fileID: 9127608846253226042}
   - {fileID: 6300876624155511018}
   - {fileID: 3737519445509147739}
   m_Father: {fileID: 0}
@@ -2967,7 +2999,7 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 5195282222050242245}
+  InterpolationTarget: {fileID: 9127608846253226042}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -3038,10 +3070,6 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   isGround: 0
-  normalAttackTransform: {fileID: 9174069346993710721}
-  skill_1Transform: {fileID: 5979522166566291649}
-  skill_2Transform: {fileID: 63402059489775383}
-  ultimateTransform: {fileID: 593957936549350129}
   _state: 0
   basicAttackObject: {fileID: 5856153804408893940, guid: d7b339195768a3347928779193243e6b, type: 3}
   basicAttackTransform: {fileID: 9174069346993710721}
@@ -3049,6 +3077,10 @@ MonoBehaviour:
   textHealth: {fileID: 7596157829984296512}
   playerType: 0
   skillButtons: []
+  normalAttackTransform: {fileID: 9174069346993710721}
+  skill_1Transform: {fileID: 5979522166566291649}
+  skill_2Transform: {fileID: 63402059489775383}
+  ultimateTransform: {fileID: 593957936549350129}
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0

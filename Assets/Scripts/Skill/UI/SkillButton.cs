@@ -3,6 +3,7 @@ using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -17,15 +18,24 @@ public class SkillButton : NetworkBehaviour
     [SerializeField] Text m_cooldownTxt;
     [SerializeField] Button m_btnComp;
 
-    
+
     SkillController m_skillController;
     int m_currentAmount;
     public SkillButtonTypes[] m_skillButtonTypes;
     public SkillButtonTypes skillButtonType;
     public SkillTypes skillType;
-    public GameObject VFXPrefab;
+    public GameObject VfxEffect;
     [SerializeField] SkillName m_skillName;
     public Action Skill_Trigger;
+    [SerializeField] AudioClip triggerSoundFX;
+    [SerializeField] float[] levelDamages;
+    [SerializeField] bool isPhysicDamage;
+    [SerializeField] bool isMakeStun;
+    [SerializeField] bool isMakeSlow;
+    [SerializeField] bool isMakeSilen;
+    [SerializeField] float timeEffect;
+    [SerializeField] int levelSkill = 1;
+    [SerializeField] float damageSkill;
     #region EVENTS
     void RegisterEvent()
     {
@@ -44,10 +54,24 @@ public class SkillButton : NetworkBehaviour
     #endregion
     public void Initialize(SkillName skillName)
     {
-        m_skillName= skillName;
-        m_skillController=FindObjectOfType<SkillManager>().GetSkillController(skillName);
-        skillType= m_skillController.skillType;
-        VFXPrefab = m_skillController.skillStat.VfxEffect;
+        m_skillName = skillName;
+        m_skillController = FindObjectOfType<SkillManager>().GetSkillController(skillName);
+        skillType = m_skillController.skillType;
+        VfxEffect = m_skillController.skillStat.VfxEffect;
+        levelDamages = new float[6];
+        for (int i = 0; i < m_skillController.skillStat.levelDamages.Length; i++)
+        {
+            levelDamages[i] = m_skillController.skillStat.levelDamages[i];
+        }
+        isPhysicDamage = m_skillController.skillStat.isPhysicDamage;
+        isMakeStun = m_skillController.skillStat.isMakeStun;
+        isMakeSlow = m_skillController.skillStat.isMakeSlow;
+        isMakeSilen = m_skillController.skillStat.isMakeSilen;
+        timeEffect = m_skillController.skillStat.timeEffect;
+        if (levelDamages.Length > 0)
+        {
+            damageSkill = levelDamages[levelSkill];
+        };
         m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
         UpdateUI();
         if (m_btnComp != null)
@@ -62,7 +86,7 @@ public class SkillButton : NetworkBehaviour
     {
         if (m_skillController == null) return;
         if (m_skillIcon)
-        m_skillIcon.sprite=m_skillController.skillStat.skillIcon;
+            m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
         UpdateAmountTxt();
         UpdateCooldown();
         //UpdateTimerTrigger();
@@ -72,27 +96,27 @@ public class SkillButton : NetworkBehaviour
 
     private void UpdateTimerTrigger()
     {
-        if (m_skillController==null ||m_timeTriggerFilled==null) return;
-        float triggerProgress=m_skillController.triggerProgress;
-        m_timeTriggerFilled.fillAmount= triggerProgress;
+        if (m_skillController == null || m_timeTriggerFilled == null) return;
+        float triggerProgress = m_skillController.triggerProgress;
+        m_timeTriggerFilled.fillAmount = triggerProgress;
         m_timeTriggerFilled.transform.parent.gameObject.SetActive(m_skillController.IsTriggered);
     }
 
     private void UpdateCooldown()
     {
         if (m_cooldownTxt)
-        m_cooldownTxt.text= m_skillController.CooldownTime.ToString(m_skillController.CooldownTime>=1?"f0":"f1");
-        float cooldownProgress= m_skillController.cooldownProgress;
+            m_cooldownTxt.text = m_skillController.CooldownTime.ToString(m_skillController.CooldownTime >= 1 ? "f0" : "f1");
+        float cooldownProgress = m_skillController.cooldownProgress;
         if (m_CooldownOverlay)
         {
-            m_CooldownOverlay.fillAmount= cooldownProgress;
+            m_CooldownOverlay.fillAmount = cooldownProgress;
             m_CooldownOverlay.gameObject.SetActive(m_skillController.IsCooldowning);
         }
     }
 
     private void UpdateAmountTxt()
     {
-        m_currentAmount= FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
+        m_currentAmount = FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
         if (m_amountTxt)
         {
             m_amountTxt.text = $"x {m_currentAmount}";
@@ -101,35 +125,35 @@ public class SkillButton : NetworkBehaviour
 
     void TriggerSkill()
     {
-        if (m_skillController==null) return;
+        if (m_skillController == null || m_skillController.IsCooldowning) return;
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (state == 0)
         {
             if (skillButtonType == SkillButtonTypes.Jump)
             {
-                player.Jump(VFXPrefab);
+                player.Jump(VfxEffect);
             }
             if (skillButtonType == SkillButtonTypes.NormalAttack)
             {
-                player.NormalAttack(VFXPrefab);
+                player.NormalAttack(VfxEffect, damageSkill, true);
             }
             if (skillButtonType == SkillButtonTypes.Ultimate)
             {
-                player.Ultimate(VFXPrefab);
+                player.Ultimate(VfxEffect, damageSkill, isPhysicDamage);
             }
             if (skillButtonType == SkillButtonTypes.Skill_2)
             {
-                player.Skill_2(VFXPrefab);
+                player.Skill_2(VfxEffect, damageSkill, isPhysicDamage);
             }
             if (skillButtonType == SkillButtonTypes.Skill_1)
             {
-                player.Skill_1(VFXPrefab);
+                player.Skill_1(VfxEffect, damageSkill, isPhysicDamage);
             }
             m_skillController.Trigger();
         }
-        
-        
-        
+
+
+
         //play âm thanh ở đây
     }
     private void OnDestroy()
@@ -148,7 +172,7 @@ public class SkillButton : NetworkBehaviour
             player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
             return;
         }
-        
+
     }
     public void PointDrag()
     {
@@ -156,7 +180,7 @@ public class SkillButton : NetworkBehaviour
         if (state == 5)
         {
             player.gameObject.GetComponent<SkillDirection>().GetMouse();
-          //  Camera.main.transform.rotation= Quaternion.AngleAxis(player.transform.rotation.eulerAngles.y,Vector3.up);
+            //  Camera.main.transform.rotation= Quaternion.AngleAxis(player.transform.rotation.eulerAngles.y,Vector3.up);
 
         }
 
@@ -178,7 +202,7 @@ public class SkillButton : NetworkBehaviour
                     Quaternion.LookRotation(player.gameObject.GetComponent<SkillDirection>().directionNormalize);
             }
         }
-            
+
     }
     IEnumerator DelayCameraActiveAgain(float time)
     {
@@ -186,6 +210,7 @@ public class SkillButton : NetworkBehaviour
         FindObjectOfType<CinemachineFreeLook>().enabled = true;
         Singleton<CameraController>.Instance.StartTransition();
     }
-    
-    
+
+
 }
+

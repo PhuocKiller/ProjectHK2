@@ -13,7 +13,7 @@ using static UnityEditorInternal.VersionControl.ListControl;
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
-    PlayerStat playerStat = new PlayerStat(maxHealth: 100, maxMana:50, damage:20);
+    PlayerStat playerStat = new PlayerStat(maxHealth: 100, maxMana: 50, damage: 20);
     CharacterInput characterInput;
     Vector2 moveInput;
     Vector3 moveDirection;
@@ -21,16 +21,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     Animator animator;
     float speed;
     private int targetX, targetY, beforeTarget;
-    private float previousSpeedX, currentSpeedX,previousSpeedY, currentSpeedY;
+    private float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY;
     public bool isGround;
     [Networked]
-     bool isJumping { get; set; }
+    bool isJumping { get; set; }
     [Networked]
     bool isBasicAttackAttack { get; set; }
     [Networked]
     float jumpHeight { get; set; }
     Vector3 velocity;
-    [SerializeField]public Transform normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform;
+
 
     // 0 là normal
     // 1 là jump
@@ -41,8 +41,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Networked(OnChanged = nameof(listenState))]
     [SerializeField]
     public int state { get; set; }
-    
-    
+
+
     [SerializeField]
     public GameObject basicAttackObject;
     [SerializeField]
@@ -55,15 +55,15 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
     private void Awake()
     {
-        characterInput= new CharacterInput();
-        characterControllerPrototype= GetComponent<CharacterController>();
-        animator=GetComponent<Animator>();
+        characterInput = new CharacterInput();
+        characterControllerPrototype = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
     public override void Spawned()
     {
         base.Spawned();
-        
-       
+
+
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
             Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera, transform);
@@ -72,7 +72,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     private void Start()
     {
-        
+
     }
     public override void FixedUpdateNetwork()
     {
@@ -94,22 +94,25 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
     private void CalculateJump()
     {
-        if (isJumping)
+        if (HasStateAuthority)
         {
-            isGround = false;
-            isJumping = false;
-            velocity += new Vector3(0, 50f, 0);
-        }
-        if (isGround)
-        {
-            velocity.y = 0;
-            characterControllerPrototype.Move(velocity * Time.deltaTime);
-        }
-        else
-        {
-            velocity += new Vector3(0, -100f * Runner.DeltaTime, 0);
+            if (isJumping)
+            {
+                isGround = false;
+                isJumping = false;
+                velocity += new Vector3(0, 50f, 0);
+            }
+            if (isGround)
+            {
+                velocity.y = 0;
+                characterControllerPrototype.Move(velocity * Time.deltaTime);
+            }
+            else
+            {
+                velocity += new Vector3(0, -100f * Runner.DeltaTime, 0);
 
-            characterControllerPrototype.Move(velocity * Time.deltaTime);
+                characterControllerPrototype.Move(velocity * Time.deltaTime);
+            }
         }
     }
 
@@ -124,44 +127,48 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         animator.SetTrigger(name);
     }
-    public virtual void Skill_1(GameObject VFXEffect)
+    public virtual void Skill_1(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
     {
         AnimatorRPC("Skill_1");
     }
-    
-    public virtual void Skill_2(GameObject VFXEffect)
+
+    public virtual void Skill_2(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
     {
 
     }
-    public virtual void Ultimate(GameObject VFXEffect)
+    public virtual void Ultimate(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
     {
         AnimatorRPC("Ultimate");
     }
-   
-    public  virtual void NormalAttack(GameObject VFXEffect)
+
+    public virtual void NormalAttack(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
     {
         AnimatorRPC("Attack");
     }
-   
+
     void Update()
     {
-        if (state==3 || state == 4)
+        if (state == 3 || state == 4)
         {
             return;
         }
-       
-            moveInput = state != 5? characterInput.Character.Move.ReadValue<Vector2>() : Vector2.zero;
-        
-         
+
+        moveInput = state != 5 ? characterInput.Character.Move.ReadValue<Vector2>() : Vector2.zero;
+
+
         if (isGround)
         {
             velocity = Vector3.zero;
         }
-        if( Input.GetKeyDown(KeyCode.Space) && Object.HasInputAuthority )
+        if (Input.GetKeyDown(KeyCode.Space) && Object.HasInputAuthority)
         {
-            
+
         }
-        
+
     }
     private void OnEnable()
     {
@@ -175,34 +182,34 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
-            
+
             moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-            CalculateAnimSpeed("MoveX", moveInput.x,true);
-            CalculateAnimSpeed("MoveY", moveInput.y,false);
-            speed=2f+Vector2.Dot(moveInput, Vector2.up);
+            CalculateAnimSpeed("MoveX", moveInput.x, true);
+            CalculateAnimSpeed("MoveY", moveInput.y, false);
+            speed = 2f + Vector2.Dot(moveInput, Vector2.up);
             Quaternion angleCamera = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-            
+
             if (moveDirection.magnitude > 0)
             {
                 if (!isJumping)
                 {
-                  //  animator.SetFloat("Speed", 1f);
+                    //  animator.SetFloat("Speed", 1f);
                 }
-                
-               // Quaternion lookRotation = Quaternion.LookRotation(angleCamera * moveDirection);
-                
-                characterControllerPrototype.Move(angleCamera*moveDirection * speed *3* Time.deltaTime);
+
+                // Quaternion lookRotation = Quaternion.LookRotation(angleCamera * moveDirection);
+
+                characterControllerPrototype.Move(angleCamera * moveDirection * speed * 3 * Time.deltaTime);
             }
-            Quaternion look= state == 5 ? Quaternion.LookRotation(GetComponent<SkillDirection>().directionNormalize): angleCamera;
-            transform.rotation= Quaternion.RotateTowards(transform.rotation, look, 720* Runner.DeltaTime);
-           
+            Quaternion look = state == 5 ? Quaternion.LookRotation(GetComponent<SkillDirection>().directionNormalize) : angleCamera;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 720 * Runner.DeltaTime);
+
 
         }
     }
 
-    
 
-    
+
+
     protected static void listenState(Changed<PlayerController> changed)
     {
 
@@ -221,7 +228,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         switch (newstate)
         {
             case 0: { break; }
-            case 1: { break;  }
+            case 1: { break; }
             case 2: { break; }
             case 3:
                 {
@@ -236,9 +243,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         return state;
     }
 
-    private void CalculateAnimSpeed(string animationName,float speed, bool isMoveX)
+    private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
     {
-        if(isMoveX)
+        if (isMoveX)
         {
             currentSpeedX = speed;
         }
@@ -246,14 +253,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             currentSpeedY = speed;
         }
-           
+
         if (isMoveX && previousSpeedX != currentSpeedX)
         {
-            StartCoroutine(CaculateSmoothAnimation(animationName,true, speed));
+            StartCoroutine(CaculateSmoothAnimation(animationName, true, speed));
         }
         if (!isMoveX && previousSpeedY != currentSpeedY)
         {
-            StartCoroutine(CaculateSmoothAnimation(animationName,false, speed));
+            StartCoroutine(CaculateSmoothAnimation(animationName, false, speed));
         }
 
         if (isMoveX)
@@ -266,7 +273,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
 
-    IEnumerator CaculateSmoothAnimation(string animationName,bool isMoveX, float? Speedtarget = null)
+    IEnumerator CaculateSmoothAnimation(string animationName, bool isMoveX, float? Speedtarget = null)
     {
         float time = 0;
         float start = animator.GetFloat(animationName);
@@ -277,25 +284,25 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             //doi lai 1 khung hinh
             yield return null;
             if (Speedtarget != null
-                && Speedtarget != (isMoveX? currentSpeedX:currentSpeedY))
+                && Speedtarget != (isMoveX ? currentSpeedX : currentSpeedY))
             {
                 time = targetTime;
                 break;
             }
             float valueRandomSmooth = Mathf.Lerp(start, Speedtarget == null ?
-                (isMoveX? targetX:targetY ): Speedtarget.Value, x * time);
+                (isMoveX ? targetX : targetY) : Speedtarget.Value, x * time);
             animator.SetFloat(animationName, valueRandomSmooth);
             time += Time.deltaTime;
         }
     }
-   
+
     public void CheckCamera(PlayerRef player, bool isFollow)
     {
         if (player == Runner.LocalPlayer)
         {
             if (isFollow)
             {
-                Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera,transform);
+                Singleton<CameraController>.Instance.SetFollowCharacter(transformCamera, transform);
             }
             else
             {
@@ -304,7 +311,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
-    { 
+    {
         if (hit.collider.CompareTag("Ground") && !isGround)
         {
             isGround = true;
@@ -319,7 +326,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC(float damage, PlayerRef player)
     {
-        if (playerStat.currentHealth >damage)
+        if (playerStat.currentHealth > damage)
         {
             animator.SetTrigger("Injured");
             playerStat.currentHealth -= damage;
@@ -329,7 +336,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             playerStat.currentHealth = 0;
             SwithCharacterState(3);
         }
-        
+
     }
     public Player_Types GetPlayerTypes()
     {
@@ -344,8 +351,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             item.OnPickUp();
         }
     }
-    
+
 
 
 
 }
+

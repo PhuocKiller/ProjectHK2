@@ -12,9 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: DarkNight_Ultimate
   m_EditorClassIdentifier: 
-  timerTrigger: 1
+  timerTrigger: 0
   cooldownTime: 30
   skillIcon: {fileID: 21300000, guid: 79db22a44d0ffa24fac8aa12e0cb0489, type: 3}
   triggerSoundFX: {fileID: 0}
-  damage: 0
+  levelDamages:
+  - 0
+  - 50
+  - 100
+  - 150
+  isPhysicDamage: 0
+  isMakeStun: 1
+  isMakeSlow: 0
+  isMakeSilen: 0
+  timeEffect: 2
   VfxEffect: {fileID: 7647375919561907788, guid: 386b6ca9638bf584987276c026e26718, type: 3}
