@@ -11,6 +11,7 @@ public class DarkNight_Attack : NetworkBehaviour
     private List<Collider> collisions = new List<Collider>();
 
     private TickTimer timer;
+    public float timerDespawn;
     public float damage;
     public override void Spawned()
     {
@@ -19,7 +20,7 @@ public class DarkNight_Attack : NetworkBehaviour
         rb = GetComponent<NetworkRigidbody>();
         if (HasStateAuthority && HasInputAuthority)
         {
-            timer = TickTimer.CreateFromSeconds(Runner, 1f);
+            timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
         }
     }
 
@@ -54,7 +55,7 @@ public class DarkNight_Attack : NetworkBehaviour
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, Object.InputAuthority,
                 () =>
                 {
-                    Runner.Despawn(Object);
+                  //  Runner.Despawn(Object);
                 }
                 );
         }

@@ -138,20 +138,19 @@ public class SkillButton : NetworkBehaviour
             }
             if (skillButtonType == SkillButtonTypes.NormalAttack)
             {
-                player.NormalAttack(VfxEffect, damageSkill, true);
+                player.NormalAttack(VfxEffect, damageSkill, isPhysicDamage, timeTrigger: timerTrigger);
             }
             if (skillButtonType == SkillButtonTypes.Ultimate)
             {
-                player.Ultimate(VfxEffect, damageSkill, isPhysicDamage);
+                player.Ultimate(VfxEffect, damageSkill, isPhysicDamage, timeTrigger: timerTrigger);
             }
             if (skillButtonType == SkillButtonTypes.Skill_2)
             {
-                player.Skill_2(VfxEffect, damageSkill, isPhysicDamage);
+                player.Skill_2(VfxEffect, damageSkill, isPhysicDamage, timeTrigger: timerTrigger);
             }
             if (skillButtonType == SkillButtonTypes.Skill_1)
             {
-                Debug.Log("vo day");
-                player.Skill_1(VfxEffect, damageSkill, isPhysicDamage);
+                player.Skill_1(VfxEffect, damageSkill, isPhysicDamage, timeTrigger: timerTrigger);
             }
             m_skillController.Trigger();
         }

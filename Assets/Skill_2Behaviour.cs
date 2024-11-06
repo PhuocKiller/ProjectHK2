@@ -9,7 +9,7 @@ public class Skill_2Behaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController ??= animator.gameObject.GetComponent<PlayerController>();
-        playerController.SwithCharacterState(5);
+        playerController.SwithCharacterState(4);
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine

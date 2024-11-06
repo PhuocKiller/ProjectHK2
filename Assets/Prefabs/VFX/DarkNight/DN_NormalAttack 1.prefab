@@ -9924,7 +9924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
+  DestroyWhenStateAuthorityLeaves: 1
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
@@ -9950,6 +9950,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  timerDespawn: 0
   damage: 0
 --- !u!1 &6982067714073744344
 GameObject:
