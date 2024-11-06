@@ -128,24 +128,25 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         animator.SetTrigger(name);
     }
     public virtual void Skill_1(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
+        float timeTrigger = 0f, float TimeEffect = 0f)
     {
         AnimatorRPC("Skill_1");
     }
 
     public virtual void Skill_2(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
-
+        AnimatorRPC("Skill_2");
     }
     public virtual void Ultimate(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
         AnimatorRPC("Ultimate");
     }
 
     public virtual void NormalAttack(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
         AnimatorRPC("Attack");
     }

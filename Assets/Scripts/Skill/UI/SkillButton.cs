@@ -27,6 +27,7 @@ public class SkillButton : NetworkBehaviour
     public GameObject VfxEffect;
     [SerializeField] SkillName m_skillName;
     public Action Skill_Trigger;
+    [SerializeField] float timerTrigger;
     [SerializeField] AudioClip triggerSoundFX;
     [SerializeField] float[] levelDamages;
     [SerializeField] bool isPhysicDamage;
@@ -68,6 +69,8 @@ public class SkillButton : NetworkBehaviour
         isMakeSlow = m_skillController.skillStat.isMakeSlow;
         isMakeSilen = m_skillController.skillStat.isMakeSilen;
         timeEffect = m_skillController.skillStat.timeEffect;
+        timerTrigger= m_skillController.skillStat.timerTrigger;
+        triggerSoundFX = m_skillController.skillStat.triggerSoundFX;
         if (levelDamages.Length > 0)
         {
             damageSkill = levelDamages[levelSkill];
@@ -147,6 +150,7 @@ public class SkillButton : NetworkBehaviour
             }
             if (skillButtonType == SkillButtonTypes.Skill_1)
             {
+                Debug.Log("vo day");
                 player.Skill_1(VfxEffect, damageSkill, isPhysicDamage);
             }
             m_skillController.Trigger();
@@ -196,10 +200,8 @@ public class SkillButton : NetworkBehaviour
             {
                 player.gameObject.GetComponent<SkillDirection>().GetMouseUp();
                 player.state = 0;
-                m_btnComp.onClick.Invoke();
-                player.enabled = false;
-                Camera.main.transform.rotation =
-                    Quaternion.LookRotation(player.gameObject.GetComponent<SkillDirection>().directionNormalize);
+               m_btnComp.onClick.Invoke();
+              //  Camera.main.transform.rotation = Quaternion.LookRotation(player.gameObject.GetComponent<SkillDirection>().directionNormalize);*/
             }
         }
 

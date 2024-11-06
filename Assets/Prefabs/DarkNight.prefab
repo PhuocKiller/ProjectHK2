@@ -2791,7 +2791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -231.4}
+  m_AnchoredPosition: {x: 0, y: -400.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1617884646356781238
@@ -2888,7 +2888,7 @@ Animator:
   m_GameObject: {fileID: 8523547410306454324}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5270ceee674e1894dbce0b3bcae1e0d9, type: 2}
-  m_Controller: {fileID: 9100000, guid: 9bdadda131328b24bacbe9a04f5c374f, type: 2}
+  m_Controller: {fileID: 22100000, guid: 6f8a91f2884b98f4d98c24d7387a4d74, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2955,8 +2955,8 @@ MonoBehaviour:
     _value: 0
     _inverse: 0
     _hash: -814817977
-  StateHashes: 0000000046980c4f14c27366213842f4a51b941bdae5fc967fa11b29b1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e175474822bd61b594c2e7d60556569089f1e
-  TriggerHashes: 0000000028a981070d286c40213842f437b93501
+  StateHashes: 0000000046980c4f14c27366213842f4a51b941b33fcc29f104cc139fa334f4ab99d7c49406246d303cc75d05df9b1c647688b2cb1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e175474822bd61b594c2e7d60556569089f1e
+  TriggerHashes: 0000000028a981070d286c40213842f437b93501affd802515ac89bc5df9b1c6
 --- !u!143 &6160381382846009959
 CharacterController:
   m_ObjectHideFlags: 0

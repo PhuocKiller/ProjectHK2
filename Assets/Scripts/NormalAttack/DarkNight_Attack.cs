@@ -41,7 +41,6 @@ public class DarkNight_Attack : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("vo trig");
         if (HasStateAuthority
             && other.gameObject.layer == 7
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
@@ -51,7 +50,6 @@ public class DarkNight_Attack : NetworkBehaviour
                other.gameObject.GetComponent<CharacterController>().GetCurrentState() == 1)*/
             )
         {
-            Debug.Log("vo if");
             collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, Object.InputAuthority,
                 () =>

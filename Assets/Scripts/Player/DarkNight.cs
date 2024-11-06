@@ -8,7 +8,7 @@ public class DarkNight : PlayerController
     [SerializeField] public Transform normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform;
     TickTimer timerSkill2;
     public override void NormalAttack(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
         base.NormalAttack(VFXEffect, levelDamage, isPhysicDamage);
         StartCoroutine(DelaySpawnAttack(VFXEffect, levelDamage, isPhysicDamage));
@@ -26,9 +26,9 @@ public class DarkNight : PlayerController
                         );
     }
     public override void Skill_2(GameObject VFXEffect, float levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
-        base.Skill_2(VFXEffect, levelDamage, isPhysicDamage);
+        base.Skill_2(VFXEffect, levelDamage, isPhysicDamage,timeTrigger: timeTrigger);
         NetworkObject obj = Runner.Spawn(VFXEffect, skill_2Transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
