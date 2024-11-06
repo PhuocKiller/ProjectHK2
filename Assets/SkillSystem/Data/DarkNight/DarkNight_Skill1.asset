@@ -26,4 +26,4 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   timeEffect: 1
-  VfxEffect: {fileID: 3367314013316085171, guid: 2776d1fe2a23a9640870b509f2dd1261, type: 3}
+  VfxEffect: {fileID: 5988736940883986072, guid: 30b3672ab749f2b44af957dbeef1c399, type: 3}
